@@ -1,0 +1,105 @@
+
+.main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+.telinha{
+    background-color: rgb(145, 88, 179);
+    width: 60%;
+    height: 80%;
+    display: inherit;
+    flex-direction: inherit;
+    align-items: inherit;
+    justify-content: inherit;
+    gap: inherit;
+    border-radius: 80px;
+    box-shadow: 3px 5px 5px rgba(95, 0, 114, 0.685)
+}
+.lista-ferramentas{
+    width: 45%;
+    background-color: rgb(224, 224, 224);
+    border-radius: 50px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.37);
+
+}
+.remover-item{
+    border: none;
+    background: red;
+    border-radius: 100%;
+    color: white;
+    padding: 6px 10px;
+    font-family: inherit;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.171)
+}
+.molde-form{
+    padding: 6px 10px;
+    border: none;
+    background: rgb(224, 224, 224);
+    border-radius: 30px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.37)
+}
+#cadastrosalvar{
+    border: none;
+    background: rgb(60, 255, 0);
+    border-radius: 50px;
+    color: rgb(0, 0, 0);
+    padding: 6px 10px;
+    font-family: inherit;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.37)
+}
+
+.limpar-lista{
+    border: none;
+    border-radius: 50px;
+    background: red;
+    padding: 6px 10px;
+    display: flex;
+    margin-left: 41%;
+    color: white;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.37)
+
+}
+.tag {
+    background: #db8ff1;
+    color: #080808;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-right: 6px;
+    font-size: 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.lado-direito {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tags{
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    padding-left: 50px;
+}
+.tags-preview{
+    display: flex;
+    gap: 8px;          
+    flex-wrap: wrap;   
+    margin-top: 8px;
+    justify-content: flex-start;
+}

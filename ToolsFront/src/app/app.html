@@ -1,0 +1,61 @@
+<div class="main">
+  <div class="telinha">
+
+    <input
+      type="text"
+      id="cadastroferramenta"
+      class="molde-form"
+      placeholder="Nome da ferramenta"
+      [(ngModel)]="ferramenta.nome"
+    >
+
+    <input
+      type="text"
+      id="cadastrotags"
+      class="molde-form"
+      placeholder="Tags (Enter ou vírgula)"
+      [(ngModel)]="tagDigitada"
+      (keyup)="processarTags($event)"
+    >
+
+    @if (ferramenta.tags.length > 0) {
+      <div class="tags-preview">
+        @for (tag of ferramenta.tags; track tag) {
+          <span class="tag">#{{ tag }}</span>
+        }
+      </div>
+    }
+
+    <button id="cadastrosalvar" (click)="adicionarFerramenta()">
+      Salvar
+    </button>
+
+
+    @for (item of listaFerramentas; track $index) {
+      <div class="lista-ferramentas">
+        <span class="texto">{{ item.nome }}</span>
+
+        <div class="lado-direito">
+          <div class="tags">
+            @for (tag of item.tags; track tag) {
+              <span class="tag">#{{ tag }}</span>
+            }
+          </div>
+
+          <button class="remover-item" (click)="deletarbotao($index)">
+            X
+          </button>
+        </div>
+      </div>
+    }
+
+    <button class="limpar-lista" (click)="excluirbotao()">
+      Excluir
+    </button>
+
+  </div>
+
+  <button (click)="mostrarObjetos()">
+    Ver objetos no console
+  </button>
+</div>
