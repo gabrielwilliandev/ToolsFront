@@ -1,61 +1,68 @@
-<div class="main">
+<div class="main main-dark">
   <div class="telinha">
+    
+    <div class="organizacao">
+      <input
+        type="text"
+        id="cadastroferramenta"
+        class="molde-form nome-ferramenta"
+        placeholder="Nome da ferramenta"
+        [(ngModel)]="nome"
+      >
+      <textarea type="text" id="descricao" class="molde-form molde-form-descricao" placeholder="Descrição" [(ngModel)]="descricao"></textarea>
 
-    <input
-      type="text"
-      id="cadastroferramenta"
-      class="molde-form"
-      placeholder="Nome da ferramenta"
-      [(ngModel)]="ferramenta.nome"
-    >
+    
+        <input
+          type="text"
+          id="cadastrotags"
+          class="molde-form tag-ferramenta"
+          placeholder="Tags (Enter ou vírgula)"
+          [(ngModel)]="tagDigitada"
+          (keyup)="processarTags($event)"
+        >
 
-    <input
-      type="text"
-      id="cadastrotags"
-      class="molde-form"
-      placeholder="Tags (Enter ou vírgula)"
-      [(ngModel)]="tagDigitada"
-      (keyup)="processarTags($event)"
-    >
+        <button class="cadastrosalvar" (click)="adicionarFerramenta()">
+          Salvar
+        </button>
+    </div>
 
-    @if (ferramenta.tags.length > 0) {
+
+    @if (listaTags.length > 0) {
       <div class="tags-preview">
-        @for (tag of ferramenta.tags; track tag) {
+        @for (tag of listaTags; track tag) {
           <span class="tag">#{{ tag }}</span>
         }
       </div>
     }
 
-    <button id="cadastrosalvar" (click)="adicionarFerramenta()">
-      Salvar
-    </button>
 
 
-    @for (item of listaFerramentas; track $index) {
-      <div class="lista-ferramentas">
-        <span class="texto">{{ item.nome }}</span>
-
-        <div class="lado-direito">
-          <div class="tags">
-            @for (tag of item.tags; track tag) {
-              <span class="tag">#{{ tag }}</span>
-            }
+    <div class="ferramentas-organizacao">
+      @for (item of service.getLista(); track $index) {
+        <div class="lista-ferramentas">
+          <span class="texto">{{ item.nome }}</span>
+          <div class="descrition">
+            {{item.descricao}}
           </div>
-
-          <button class="remover-item" (click)="deletarbotao($index)">
-            X
-          </button>
+          <div class="lado-direito">
+            <div class="tags">
+              @for (tag of item.tags; track tag) {
+                <span class="tag">#{{ tag }}</span>
+              }
+            </div>
+            <button class="remover-item" (click)="deletarItem($index)">
+              X
+            </button>
+          </div>
         </div>
-      </div>
-    }
-
-    <button class="limpar-lista" (click)="excluirbotao()">
-      Excluir
-    </button>
+      }
+      @if(botaoVisibilidade){
+        <button class="limpar-lista" (click)="excluirLista()">
+          Excluir
+        </button>
+      }
+    </div>
 
   </div>
 
-  <button (click)="mostrarObjetos()">
-    Ver objetos no console
-  </button>
 </div>
