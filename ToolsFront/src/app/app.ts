@@ -4,12 +4,13 @@ import { Header } from './components/header/header';
 import { ListaTelaFerramentas } from './features/lista-tela-ferramentas/lista-tela-ferramentas';
 import { Contato } from './features/contato/contato';
 import { Sobre } from './features/sobre/sobre';
+import { Footer } from './components/footer/footer';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, ListaTelaFerramentas, Contato, Sobre],
+  imports: [RouterOutlet, Header, ListaTelaFerramentas, Contato, Sobre, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
