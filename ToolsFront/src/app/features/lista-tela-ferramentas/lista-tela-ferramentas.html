@@ -1,0 +1,46 @@
+<div class="main">
+  <div class="telinha">
+    <h1 class="titulo">Lista de Ferramentas</h1>
+    <div class="organizacao">
+      <input
+        type="text"
+        id="cadastroferramenta"
+        class="molde-form nome-ferramenta"
+        placeholder="Nome da ferramenta"
+        [(ngModel)]="nome"
+      />
+      <textarea
+        type="text"
+        id="descricao"
+        class="molde-form molde-form-descricao"
+        placeholder="Descrição"
+        [(ngModel)]="descricao"
+      ></textarea>
+
+      <input
+        type="text"
+        id="cadastrotags"
+        class="molde-form tag-ferramenta lado-direito"
+        placeholder="Tags (Enter ou vírgula)"
+        [(ngModel)]="tagDigitada"
+        (keyup)="processarTags($event)"
+      />
+
+      <button class="cadastrosalvar" (click)="adicionarFerramenta()">Salvar</button>
+    </div>
+
+    @if (listaTags.length > 0) {
+      <div class="preview-tags">
+        @for (tag of listaTags; track $index; let i = $index) {
+          <app-tag
+            [tag]="tag"
+            [style.animationDelay]="i * 50 + 'ms'"
+            (editar)="atualizarTag(i, $event)"
+          >
+          </app-tag>
+        }
+      </div>
+    }
+    <app-card></app-card>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+$corBotao: red;
+/* ================= LISTA ================= */
+
+.ferramentas-organizacao {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .lista-ferramentas {
+    background-color: rgb(224, 224, 224);
+    border-radius: 30px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 6px 8px 15px rgba(0, 0, 0, 0.25);
+
+    .texto {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .descrition {
+      color: #646464;
+      background: #cfcfcf;
+      border-radius: 20px;
+      padding: 10px 15px;
+      font-size: 13px;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .lado-direito {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+
+      .tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .remover-item {
+        border: none;
+        background-color: transparent;
+        color: #646464;
+        cursor: pointer;
+        font-size: 18px;
+        transition: 0.2s;
+
+        &:hover {
+          color: $corBotao;
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .limpar-lista {
+    align-self: flex-end;
+    width: 120px;
+    border: none;
+    background: rgb(255, 60, 60);
+    border-radius: 30px;
+    padding: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}

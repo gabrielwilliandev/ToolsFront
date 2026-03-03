@@ -1,0 +1,14 @@
+<span class="tag">
+    @if(!editando){
+
+        <mat-icon>bookmark</mat-icon>
+        <span>{{ tag }}</span>
+        
+        <button mat-icon-button (click)="iniciarEdicao()">
+            <mat-icon class="caneta">edit</mat-icon>
+        </button>
+    }@else{
+        <input type="text" [(ngModel)]="valorEditado" (keyup.enter)="salvarEdicao()"
+        (keyup.escape)="cancelarEdicao()" class="input-edicao" />
+    }
+</span>

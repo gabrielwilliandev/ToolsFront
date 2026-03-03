@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Ferramenta } from './features/lista-tela-ferramentas/ferramenta';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class ListaService {
   public listaFerramentas: Ferramenta[] = [];
 
   getLista(): Ferramenta[]{
-    return this.listaFerramentas;
+    return [...this.listaFerramentas];
   }
 
   carregar(){
@@ -25,6 +26,15 @@ export class ListaService {
     this.salvarNoStorage();
     
   }
+  atualizaTags(index: number, tags: string[]){
+    if(!this.listaFerramentas[index]) return;
+
+    this.listaFerramentas[index] = {
+      ...this.listaFerramentas[index],
+      tags: [...tags]
+    };
+    this.salvarNoStorage();
+  }
   
   removerItem(index: number){
     this.listaFerramentas.splice(index, 1);
@@ -33,7 +43,7 @@ export class ListaService {
   
   limparLista(){
    this.listaFerramentas = []
-   localStorage.clear();
+   localStorage.removeItem(this.key);
   }
   
   salvarNoStorage(){
@@ -41,8 +51,3 @@ export class ListaService {
   }
 }
 
-export interface Ferramenta {
-  nome?: string;
-  descricao?: string;
-  tags: string[];
-}

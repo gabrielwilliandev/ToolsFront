@@ -1,0 +1,53 @@
+<div class="page">
+  <div class="contact">
+    <h1>ENTRE EM CONTATO CONOSCO!</h1>
+
+    <form [formGroup]="contatoForm" (ngSubmit)="enviarMensagem()">
+      <div class="inputsassunto">
+        <mat-form-field>
+          <mat-label>Assunto</mat-label>
+          <input matInput formControlName="assunto" />
+          @if(contatoForm.get('assunto')?.hasError('required') && contatoForm.get('assunto')?.touched) {
+            <mat-error>
+            O assunto é obrigatório.
+          </mat-error>
+        }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+          @if(contatoForm.get('email')?.hasError('required') && contatoForm.get('email')?.touched) {
+            <mat-error>Por favor, insira um email.</mat-error>
+          }
+          @if(contatoForm.get('email')?.hasError('email') && contatoForm.get('email')?.touched) {
+            <mat-error>Por favor, insira um email válido.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="mensagem"></textarea>
+      </mat-form-field>
+      @if (contatoForm.get('mensagem')?.hasError('required') && contatoForm.get('mensagem')?.touched) {
+        <mat-error>A descrição é obrigatória.</mat-error>
+      }
+      <div class="inputscategoria">
+        <mat-form-field>
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoria">
+            <mat-option value="erros">Erros</mat-option>
+            <mat-option value="sugestoes">Sugestões</mat-option>
+          </mat-select>
+          @if(contatoForm.get('categoria')?.hasError('required') && contatoForm.get('categoria')?.touched) {
+            <mat-error>Por favor, selecione uma categoria.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="enviobutton">
+        <button mat-raised-button color="primary" type="submit" [disabled]="contatoForm.invalid">
+          Enviar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

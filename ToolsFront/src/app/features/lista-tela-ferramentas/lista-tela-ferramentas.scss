@@ -1,0 +1,85 @@
+.main {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  &-dark {
+    background-color: black;
+  }
+  .titulo {
+    font-family: 'Bungee', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #db8ff1;
+    text-align: center;
+  }
+  .telinha {
+    background-color: rgb(145, 88, 179);
+    width: 60%;
+    max-width: 900px;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 40px;
+    padding: 30px;
+    box-shadow: 3px 5px 15px rgba(95, 0, 114, 0.6);
+
+    /* ================= FORM ================= */
+
+    .organizacao {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .molde-form {
+        padding: 10px 15px;
+        border: none;
+        background: rgb(224, 224, 224);
+        border-radius: 25px;
+        box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        width: 22%;
+
+        &-descricao {
+          height: 100px;
+          resize: none;
+          width: 100%;
+        }
+      }
+
+      .cadastrosalvar {
+        align-self: flex-end;
+        width: 120px;
+        border: none;
+        background: rgb(60, 255, 0);
+        border-radius: 30px;
+        padding: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+      .tag-ferramenta {
+        align-self: flex-end;
+      }
+    }
+
+    /* ================= TAG PREVIEW ================= */
+
+    .preview-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+  }
+}
