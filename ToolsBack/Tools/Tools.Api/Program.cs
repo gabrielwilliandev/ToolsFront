@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Tools.Application.Interfaces;
-using Tools.Application.UseCases.Comands;
-using Tools.Application.UseCases.CreateTool;
-using Tools.Application.UseCases.Queries;
+using Tools.Application.Services;
 using Tools.Infrastructure.Context;
 using Tools.Infrastructure.Repositories;
 
@@ -12,17 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<ToolsDbContext>(optionsAction =>
+builder.Services.AddDbContext<ToolsDbContext>(options =>
 {
-    optionsAction.UseInMemoryDatabase("ToolsDb");
+    options.UseSqlite("Data Source=tools.db");
 });
 
 builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
-builder.Services.AddScoped<CreateToolUseCase>();
-builder.Services.AddScoped<UpdateToolUseCase>();
-builder.Services.AddScoped<DeleteToolUseCase>();
-builder.Services.AddScoped<ToolQueryService>();
+builder.Services.AddScoped<IToolService, ToolService>();
 
 
 builder.Services.AddEndpointsApiExplorer();

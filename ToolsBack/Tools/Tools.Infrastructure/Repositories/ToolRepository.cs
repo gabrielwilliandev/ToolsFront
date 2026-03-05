@@ -27,21 +27,14 @@ namespace Tools.Infrastructure.Repositories
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task UpdateToolAsync(Tool tool)
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteToolAsync(Guid id)
+        public void RemoveTool(Tool tool)
         {
-            var tool = await _context.Tools
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (tool == null)
-                return;
-
             _context.Tools.Remove(tool);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Tool>> GetAllAsync()

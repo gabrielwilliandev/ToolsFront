@@ -1,86 +1,50 @@
-# Visual Studio
-.vs/
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
 
-# Build results
-[Bb]in/
-[Oo]bj/
-artifacts/
+bin/
+obj/
+out/
 publish/
 
 
-.idea/
-*.sln.iml
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
 
 
+.vs/
 .vscode/
+.idea/
 
 
-project.lock.json
-project.fragment.lock.json
-*.pidb
-*.booproj
-*.svclog
 *.log
 
 
-*.nupkg
-packages/
-.nuget/packages/
-.nuget/plugins-cache/
-
-# Dotnet Core
-project.assets.json
-backup/
-tmp/
-*.tmp
-*.temp
-
-# Entity Framework
-*.db
-*.mdf
-*.ldf
-
-
-secrets.json
-secrets.*.json
-appsettings.Development.json
-
-
-*.rsuser
-*.suo
-*.userprefs
-*.resharper*
-*.DotSettings.user
-
-# OS generated files
 .DS_Store
 Thumbs.db
 
-.idea/
-.idea/*
+
+*.db
+*.db-shm
+*.db-wal
+
+
+*.Designer.cs
+
+
+appsettings.Development.json
+secrets.json
 
 
 node_modules/
-dist/
-npm-debug.log
-yarn-error.log
 
 
 coverage/
-*.coverage
-*.coveragexml
 TestResults/
 
-# Logs
-*.log
-
-
-~$*
-~*
 
 .idea/
-.idea_modules/
+
+
+*.tmp
+*.temp
