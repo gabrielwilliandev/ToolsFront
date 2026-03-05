@@ -74,7 +74,7 @@ namespace Tools.Api.Controllers.ToolController
                     Id = tool.Id,
                     Name = tool.Name,
                     Description = tool.Description,
-                    Tags = tool.Tags is null ? null : new List<string>(tool.Tags.Select(t => t.Name))
+                    Tags = tool.Tags
                 };
 
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);

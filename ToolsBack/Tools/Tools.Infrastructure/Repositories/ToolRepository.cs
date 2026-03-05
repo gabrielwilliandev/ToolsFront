@@ -29,7 +29,6 @@ namespace Tools.Infrastructure.Repositories
 
         public async Task UpdateToolAsync(Tool tool)
         {
-            _context.Tools.Update(tool);
             await _context.SaveChangesAsync();
         }
 

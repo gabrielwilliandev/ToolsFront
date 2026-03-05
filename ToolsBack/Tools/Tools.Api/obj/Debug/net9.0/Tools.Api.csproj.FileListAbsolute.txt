@@ -8,7 +8,6 @@ C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\Tool
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Tools.Api.pdb
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Azure.Identity.dll
-C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
@@ -87,3 +86,7 @@ C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\Tool
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\Tools.Api.pdb
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\Tools.Api.genruntimeconfig.cache
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\ref\Tools.Api.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll

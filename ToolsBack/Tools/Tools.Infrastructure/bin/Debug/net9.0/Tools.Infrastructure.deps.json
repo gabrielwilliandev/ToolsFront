@@ -10,6 +10,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "9.0.13",
           "Microsoft.EntityFrameworkCore.Design": "9.0.13",
+          "Microsoft.EntityFrameworkCore.InMemory": "9.0.13",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.13",
           "Tools.Application": "1.0.0",
           "Tools.Domain": "1.0.0"
@@ -460,6 +461,19 @@
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
+            "assemblyVersion": "9.0.13.0",
+            "fileVersion": "9.0.1326.6317"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.InMemory/9.0.13": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "9.0.13",
+          "Microsoft.Extensions.Caching.Memory": "9.0.13",
+          "Microsoft.Extensions.Logging": "9.0.13"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
             "assemblyVersion": "9.0.13.0",
             "fileVersion": "9.0.1326.6317"
           }
@@ -1164,6 +1178,13 @@
       "sha512": "sha512-m6FLORcQ5K6qob11uegC4E2nEg+USeIZqhI+n4IY0xjxuZlA3qR9IbEbby6Zv67BKtWZ5/bPoT053vpDkc8jeQ==",
       "path": "microsoft.entityframeworkcore.design/9.0.13",
       "hashPath": "microsoft.entityframeworkcore.design.9.0.13.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/9.0.13": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wADsKALwsUUlSbVPEN5+l9+hnmRl66Pk+gqJjBnFym2/t+YEsLglL9jmCpyA6TYnZN5Noz1OfHS8MleP2jUi+Q==",
+      "path": "microsoft.entityframeworkcore.inmemory/9.0.13",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.9.0.13.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/9.0.13": {
       "type": "package",
