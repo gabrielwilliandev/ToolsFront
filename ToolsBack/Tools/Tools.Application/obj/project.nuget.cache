@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ztF7oKZro1Y=",
+  "dgSpecHash": "Cse/H2WsNxo=",
   "success": true,
   "projectFilePath": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\Área de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Application\\Tools.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\u00613\\.nuget\\packages\\fluentvalidation\\11.11.0\\fluentvalidation.11.11.0.nupkg.sha512",
+    "C:\\Users\\u00613\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.1\\fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "C:\\Users\\u00613\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.11.0\\fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
+    "C:\\Users\\u00613\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
+  ],
   "logs": []
 }

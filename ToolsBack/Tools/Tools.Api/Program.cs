@@ -1,14 +1,24 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Tools.Application.Interfaces;
 using Tools.Application.Services;
+using Tools.Application.Validators;
 using Tools.Infrastructure.Context;
 using Tools.Infrastructure.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateToolRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateToolRequestValidator>();
 
 builder.Services.AddDbContext<ToolsDbContext>(options =>
 {
@@ -29,6 +39,10 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "API para gerenciamento de ferramentas"
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();
