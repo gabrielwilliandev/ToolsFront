@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Tools.Application.Common.Result;
 using Tools.Application.DTOs.Tools;
 using Tools.Application.Interfaces;
 using Tools.Domain.Entities;
@@ -14,7 +15,7 @@ namespace Tools.Application.Services
             _toolRepository = toolRepository;
             _tagRepository = tagRepository;
         }
-        public async Task<ToolResponse> CreateToolAsync(CreateToolRequest request)
+        public async Task<Result<ToolResponse>> CreateToolAsync(CreateToolRequest request)
         {
             var tool = new Tool(request.Name, request.Description);
             
@@ -26,11 +27,11 @@ namespace Tools.Application.Services
 
             foreach (var tagName in normalizedTags)
             {
-                var existingTag = _tagRepository.GetTagByNameAsync(tagName);
+                var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
 
-                if(existingTag is not null)
+                if(existingTag != null)
                 {
-                    tool.Tags.Add(existingTag.Result);
+                    tool.Tags.Add(existingTag);
                 }
                 else
                 {
@@ -40,39 +41,52 @@ namespace Tools.Application.Services
             await _toolRepository.AddToolAsync(tool);
             await _toolRepository.SaveChangesAsync();
 
-            return MapToToolResponse(tool);
+            var response = MapToToolResponse(tool);
+
+            return Result<ToolResponse>.Success(response);
         }
 
-        public async Task<List<ToolResponse>> GetAllToolsAsync()
+        public async Task <Result<List<ToolResponse>>> GetAllToolsAsync()
         {
             var tools = await _toolRepository.GetAllAsync();
-            return tools.Select(MapToToolResponse).ToList();
+            var response = tools.Select(MapToToolResponse).ToList();
+            return Result<List<ToolResponse>>.Success(response);
         }
 
-        public async Task<ToolResponse?> GetToolByIdAsync(Guid id)
+        public async Task<Result<ToolResponse>> GetToolByIdAsync(Guid id)
         {
             var tool = await _toolRepository.GetToolByIdAsync(id);
 
             if (tool == null)
-                return null;
+            {
+                return Result<ToolResponse>.Failure(new List<Error>
+                    { new Error("tool.notFound", "Ferramenta não encontrada") });
+            }
 
-            return MapToToolResponse(tool);
+            return Result<ToolResponse>.Success(MapToToolResponse(tool));
         }
 
-        public async Task<IEnumerable<ToolResponse>> SearchToolsAsync(string query)
+        public async Task<Result<IEnumerable<ToolResponse>>> SearchToolsAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
-                return new List<ToolResponse>();
+            {
+                return Result<IEnumerable<ToolResponse>>.Failure(new List<Error>
+                    { new Error("search.invalidQuery", "A consulta de pesquisa não pode ser vazia") });
+            }
 
             var tools = await _toolRepository.SearchAsync(query);
-            return tools.Select(MapToToolResponse).ToList();
+            var response = tools.Select(MapToToolResponse).ToList();
+            return Result<IEnumerable<ToolResponse>>.Success(response);
         }
 
-        public async Task<bool> UpdateToolAsync(Guid id, UpdateToolRequest request)
+        public async Task<Result<bool>> UpdateToolAsync(Guid id, UpdateToolRequest request)
         {
             var tool = await _toolRepository.GetToolByIdAsync(id);
             if (tool == null)
-                return false;
+            {
+                return Result<bool>.Failure(new List<Error>
+                    { new Error("tool.notFound", "Ferramenta não encontrada") });
+            }
 
             tool.Update(request.Name, request.Description);
             tool.Tags.Clear();
@@ -89,17 +103,20 @@ namespace Tools.Application.Services
                 tool.Tags.Add(existingTag ?? new Tag { Name = tagName });
             }
             await _toolRepository.SaveChangesAsync();
-            return true;
+            return Result<bool>.Success(true);
         }
-        public async Task<bool> DeleteToolAsync(Guid id)
+        public async Task<Result<bool>> DeleteToolAsync(Guid id)
         {
             var tool = await _toolRepository.GetToolByIdAsync(id);
             if (tool == null)
-                return false;
+            {
+                return Result<bool>.Failure(new List<Error>
+                    { new Error("tool.notFound", "Ferramenta não encontrada") });
+            }
 
             _toolRepository.RemoveTool(tool);
             await _toolRepository.SaveChangesAsync();
-            return true;
+            return Result<bool>.Success(true);
         }
 
         private static ToolResponse MapToToolResponse(Tool tool)

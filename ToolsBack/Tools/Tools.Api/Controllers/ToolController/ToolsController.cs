@@ -27,7 +27,13 @@ namespace Tools.Api.Controllers.ToolController
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _service.GetAllToolsAsync());
+            var result = await _service.GetAllToolsAsync();
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok(result.Value);
         }
 
         /// <summary>
@@ -40,8 +46,12 @@ namespace Tools.Api.Controllers.ToolController
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var tool = await _service.GetToolByIdAsync(id);
-            return tool is null ? NotFound() : Ok(tool);
+            var result = await _service.GetToolByIdAsync(id);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Errors);
+            }
+            return Ok(result.Value);
         }
 
         /// <summary>
@@ -56,7 +66,11 @@ namespace Tools.Api.Controllers.ToolController
         public async Task<IActionResult> Search([FromQuery] string query)
         {
             var results = await _service.SearchToolsAsync(query);
-            return Ok(results);
+            if (!results.IsSuccess)
+            {
+                return BadRequest(results.Errors);
+            }
+            return Ok(results.Value);
         }
 
 
@@ -71,7 +85,11 @@ namespace Tools.Api.Controllers.ToolController
         public async Task<ActionResult<CreateToolResponse>> Create([FromBody] CreateToolRequest request)
         {
             var result = await _service.CreateToolAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+            return CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value);
         }
 
         /// <summary>
@@ -87,7 +105,16 @@ namespace Tools.Api.Controllers.ToolController
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateToolRequest request)
         {
-            return await _service.UpdateToolAsync(id, request) ? NoContent() : NotFound();
+            var result = await _service.UpdateToolAsync(id, request);
+            if (!result.IsSuccess)
+            {
+                if (result.Errors.Any(e => e.Code == "NotFound"))
+                {
+                    return NotFound(result.Errors);
+                }
+                return BadRequest(result.Errors);
+            }
+            return NoContent();
         }
 
         /// <summary>
@@ -100,7 +127,12 @@ namespace Tools.Api.Controllers.ToolController
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            return await _service.DeleteToolAsync(id) ? NoContent() : NotFound();
+            var result = await _service.DeleteToolAsync(id);
+            if (!result.IsSuccess)
+            {
+                return NotFound(result.Errors);
+            }
+            return NoContent();
         }
     }
 }

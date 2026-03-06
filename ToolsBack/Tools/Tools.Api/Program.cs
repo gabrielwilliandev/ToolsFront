@@ -8,6 +8,7 @@ using Tools.Application.Validators;
 using Tools.Infrastructure.Context;
 using Tools.Infrastructure.Repositories;
 using System.Reflection;
+using Tools.Application.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<ToolsDbContext>(options =>
 builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IToolService, ToolService>();
+builder.Services.AddScoped<NotificationContext>();
 
 
 builder.Services.AddEndpointsApiExplorer();
