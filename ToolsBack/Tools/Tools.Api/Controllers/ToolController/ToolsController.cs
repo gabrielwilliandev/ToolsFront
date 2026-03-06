@@ -27,12 +27,7 @@ namespace Tools.Api.Controllers.ToolController
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _service.GetAllToolsAsync();
-
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Errors);
-            }
+            var result = await _service.GetAllToolsAsync();    
             return Ok(result.Value);
         }
 
@@ -133,6 +128,12 @@ namespace Tools.Api.Controllers.ToolController
                 return NotFound(result.Errors);
             }
             return NoContent();
+        }
+
+        [HttpGet("erro")]
+        public IActionResult GetError()
+        {
+            throw new Exception("Erro de teste");
         }
     }
 }

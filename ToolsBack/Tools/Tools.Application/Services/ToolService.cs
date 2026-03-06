@@ -19,13 +19,12 @@ namespace Tools.Application.Services
         {
             var tool = new Tool(request.Name, request.Description);
             
-            var normalizedTags = request.Tags
+            var tags = request.Tags
                 .Where(tag => !string.IsNullOrWhiteSpace(tag))
-                .Select(tag => tag.Trim().ToLower())
-                .Distinct()
-                .ToList() ?? new();
+                .Distinct() ?? Enumerable.Empty<string>();
 
-            foreach (var tagName in normalizedTags)
+
+            foreach (var tagName in tags)
             {
                 var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
 
@@ -91,13 +90,11 @@ namespace Tools.Application.Services
             tool.Update(request.Name, request.Description);
             tool.Tags.Clear();
 
-            var normalizedTags = request.Tags
+            var tags = request.Tags
                 .Where(tag => !string.IsNullOrWhiteSpace(tag))
-                .Select(tag => tag.Trim().ToLower())
-                .Distinct()
-                .ToList() ?? new();
+                .Distinct() ?? Enumerable.Empty<string>();
 
-            foreach (var tagName in normalizedTags)
+            foreach (var tagName in tags)
             {
                 var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
                 tool.Tags.Add(existingTag ?? new Tag { Name = tagName });

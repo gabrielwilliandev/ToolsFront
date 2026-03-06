@@ -9,6 +9,7 @@ using Tools.Infrastructure.Context;
 using Tools.Infrastructure.Repositories;
 using System.Reflection;
 using Tools.Application.Notifications;
+using Tools.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +50,8 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -61,6 +64,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 
