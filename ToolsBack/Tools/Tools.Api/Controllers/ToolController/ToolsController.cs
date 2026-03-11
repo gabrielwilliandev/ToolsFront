@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// file: Tools.Api\Controllers\ToolController\ToolsController.cs
+using Microsoft.AspNetCore.Mvc;
 using Tools.Application.DTOs.Tools;
 using Tools.Application.Services;
 
 namespace Tools.Api.Controllers.ToolController
 {
-    ///<summary>
+    /// <summary>
     /// API para registro de ferramentas.
     /// as ferramentas podem ser cadastradas, editadas, listadas, buscadas e deletadas.
     /// </summary>
@@ -22,114 +23,95 @@ namespace Tools.Api.Controllers.ToolController
         /// <summary>
         /// Retorna uma lista de todas as ferramentas cadastradas.
         /// </summary>
-        /// <returns>Lista de ferramentas</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _service.GetAllToolsAsync();    
-            return Ok(result.Value);
+            var tools = await _service.GetAllToolsAsync();
+            return Ok(tools);
         }
 
         /// <summary>
         /// Retorna os detalhes de uma ferramenta específica com base no seu ID.
         /// </summary>
         /// <param name="id">Identificador único da ferramenta</param>
-        /// <returns>Detalhes da ferramenta ou NotFound se não existir</returns>
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(ToolResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var result = await _service.GetToolByIdAsync(id);
-            if (!result.IsSuccess)
-            {
-                return NotFound(result.Errors);
-            }
-            return Ok(result.Value);
+            var tool = await _service.GetToolByIdAsync(id);
+            if (tool == null)
+                return NotFound();
+
+            return Ok(tool);
         }
 
         /// <summary>
-        /// Permite buscar ferramentas com base em um termo de pesquisa, 
-        /// que pode corresponder ao nome ou à descrição da ferramenta.
+        /// Busca ferramentas por termo (nome, descrição ou tag).
         /// </summary>
-        /// <param name="query">Texto usado na busca</param>
-        /// <returns>Lista de ferramentas que correspondem ao termo de pesquisa</returns>
+        /// <param name="query">Termo de pesquisa</param>
         [HttpGet("search")]
         [ProducesResponseType(typeof(IEnumerable<ToolResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Search([FromQuery] string query)
         {
-            var results = await _service.SearchToolsAsync(query);
-            if (!results.IsSuccess)
-            {
-                return BadRequest(results.Errors);
-            }
-            return Ok(results.Value);
+            var tools = await _service.SearchToolsAsync(query);
+            return Ok(tools);
         }
 
-
         /// <summary>
-        /// Cria uma nova ferramenta com base nos dados fornecidos no corpo da requisição.
+        /// Cria uma nova ferramenta.
         /// </summary>
-        /// <param name="request">Dados da ferramenta a ser criada</param>
-        /// <returns>Detalhes da ferramenta criada ou BadRequest se os dados forem inválidos</returns>
+        /// <param name="request">Dados da ferramenta</param>
         [HttpPost]
         [ProducesResponseType(typeof(CreateToolResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<CreateToolResponse>> Create([FromBody] CreateToolRequest request)
+        public async Task<ActionResult> Create([FromBody] CreateToolRequest request)
         {
-            var result = await _service.CreateToolAsync(request);
-            if (!result.IsSuccess)
-            {
-                return BadRequest(result.Errors);
-            }
-            return CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value);
+            var tool = await _service.CreateToolAsync(request);
+            if (tool == null)
+                return BadRequest();
+
+            return CreatedAtAction(nameof(GetById), new { id = tool.Id }, tool);
         }
 
         /// <summary>
-        /// Atualiza os detalhes de uma ferramenta existente com base no 
-        /// seu ID e nos dados fornecidos no corpo da requisição.
+        /// Atualiza uma ferramenta existente.
         /// </summary>
-        /// <param name="id">Identificador da ferramenta</param>
-        /// <param name="request">Novos dados da ferramenta</param>
-        /// <returns>NoContent se a atualização for bem-sucedida ou NotFound se a ferramenta não existir</returns>
+        /// <param name="id">ID da ferramenta</param>
+        /// <param name="request">Novos dados</param>
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateToolRequest request)
         {
-            var result = await _service.UpdateToolAsync(id, request);
-            if (!result.IsSuccess)
-            {
-                if (result.Errors.Any(e => e.Code == "NotFound"))
-                {
-                    return NotFound(result.Errors);
-                }
-                return BadRequest(result.Errors);
-            }
+            var updated = await _service.UpdateToolAsync(id, request);
+            if (!updated)
+                return NotFound();
+
             return NoContent();
         }
 
         /// <summary>
-        /// Deleta uma ferramenta existente com base no seu ID.
+        /// Remove uma ferramenta pelo ID.
         /// </summary>
-        /// <param name="id">Identificador da ferramenta</param>
-        /// <returns>NoContent se a exclusão for bem-sucedida ou NotFound se a ferramenta não existir</returns>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _service.DeleteToolAsync(id);
-            if (!result.IsSuccess)
-            {
-                return NotFound(result.Errors);
-            }
+            var deleted = await _service.DeleteToolAsync(id);
+            if (!deleted)
+                return NotFound();
+
             return NoContent();
         }
 
+        /// <summary>
+        /// Endpoint para teste de exceção inesperada.
+        /// </summary>
         [HttpGet("erro")]
         public IActionResult GetError()
         {

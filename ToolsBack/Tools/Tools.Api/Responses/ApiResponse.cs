@@ -1,10 +1,12 @@
-﻿namespace Tools.Api.Responses
+﻿using Tools.Application.Common.Result;
+
+namespace Tools.Api.Responses
 {
     public class ApiResponse<T>
     {
         public bool Success { get; set; }
         public T? Data { get; set; }
-        public IEnumerable<string>? Errors { get; set; }
+        public IEnumerable<Error>? Errors { get; set; }
 
         public static ApiResponse<T> SuccessResponse(T data)
         {
@@ -14,7 +16,7 @@
                 Data = data,
             };
         }
-        public static ApiResponse<T> FailureResponse(IEnumerable<string> errors)
+        public static ApiResponse<T> FailureResponse(IEnumerable<Error> errors)
         {
             return new ApiResponse<T>
             {

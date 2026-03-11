@@ -17,7 +17,7 @@ namespace Tools.Infrastructure.Repositories
         public async Task AddToolAsync(Tool tool)
         {
             _context.Tools.Add(tool);
-            await _context.SaveChangesAsync();
+            await Task.CompletedTask;
         }
 
         public async Task<Tool?> GetToolByIdAsync(Guid id)

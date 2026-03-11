@@ -21,12 +21,12 @@ namespace Tools.Domain.Entities
         private static string ValidateTag(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new DomainException("Nome da tag é obrigatório.");
+                throw new DomainException("tag.name.required", "Nome da tag é obrigatório.");
 
             name = name.Trim().ToLower();
 
             if (name.Length > 50)
-                throw new DomainException("Nome da tag deve conter no máximo 50 caracteres.");
+                throw new DomainException("tag.name.maxLength", "Nome da tag deve conter no máximo 50 caracteres.");
 
             return name;
         }

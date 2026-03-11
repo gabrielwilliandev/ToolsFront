@@ -1,17 +1,22 @@
-﻿namespace Tools.Application.Notifications
+﻿using Tools.Application.Common.Result;
+
+namespace Tools.Application.Notifications
 {
     public class NotificationContext
     {
-        private readonly List<Notification> _notifications = new();
-        public IReadOnlyCollection<Notification> Notifications => _notifications.AsReadOnly();
-        public bool HasNotifications => _notifications.Any();
-        public void AddNotification(string property, string message)
+        private readonly List<Error> _errors = new();
+
+        public IReadOnlyCollection<Error> Errors => _errors;
+
+        public bool HasErrors => _errors.Any();
+
+        public void AddErrors(string code, string message)
         {
-            _notifications.Add(new Notification(property, message));
+            _errors.Add(new Error(code, message));
         }
-        public void ClearNotifications()
+        public void AddError(IEnumerable<Error> errors)
         {
-            _notifications.Clear();
+            _errors.AddRange(errors);
         }
     }
 }

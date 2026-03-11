@@ -1,26 +1,31 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using Tools.Api.Filters;
+using Tools.Api.Middleware;
 using Tools.Application.Interfaces;
+using Tools.Application.Notifications;
 using Tools.Application.Services;
 using Tools.Application.Validators;
 using Tools.Infrastructure.Context;
 using Tools.Infrastructure.Repositories;
-using System.Reflection;
-using Tools.Application.Notifications;
-using Tools.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers(opt =>
+{
+    opt.Filters.Add<NotificationFilter>();
+});
 
-builder.Services.AddControllers();
-
-builder.Services.AddFluentValidationAutoValidation()
-    .AddFluentValidationClientsideAdapters();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateToolRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateToolRequestValidator>();
+builder.Services.Configure<ApiBehaviorOptions>(opt =>
+{
+    opt.SuppressModelStateInvalidFilter = true;
+});
 
 builder.Services.AddDbContext<ToolsDbContext>(options =>
 {
@@ -31,7 +36,7 @@ builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IToolService, ToolService>();
 builder.Services.AddScoped<NotificationContext>();
-
+builder.Services.AddScoped<NotificationFilter>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -64,7 +69,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 
 app.MapControllers();
 

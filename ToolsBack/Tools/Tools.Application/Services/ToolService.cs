@@ -1,8 +1,11 @@
-﻿using System.Xml.Linq;
+﻿using FluentValidation;
+using System.Xml.Linq;
 using Tools.Application.Common.Result;
 using Tools.Application.DTOs.Tools;
 using Tools.Application.Interfaces;
+using Tools.Application.Notifications;
 using Tools.Domain.Entities;
+using Tools.Domain.Exceptions;
 
 namespace Tools.Application.Services
 {
@@ -10,110 +13,143 @@ namespace Tools.Application.Services
     {
         private readonly IToolRepository _toolRepository;
         private readonly ITagRepository _tagRepository;
-        public ToolService(IToolRepository toolRepository, ITagRepository tagRepository)
+        private readonly IValidator<CreateToolRequest> _createValidator;
+        private readonly IValidator<UpdateToolRequest> _updateValidator;
+        private readonly NotificationContext _notificationContext;
+
+        public ToolService(
+            IToolRepository toolRepository,
+            ITagRepository tagRepository,
+            IValidator<CreateToolRequest> createValidator,
+            IValidator<UpdateToolRequest> updateValidator, NotificationContext notificationContext)
         {
             _toolRepository = toolRepository;
-            _tagRepository = tagRepository;
+        _tagRepository = tagRepository;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
+            _notificationContext = notificationContext;
         }
-        public async Task<Result<ToolResponse>> CreateToolAsync(CreateToolRequest request)
+
+        public async Task<ToolResponse?> CreateToolAsync(CreateToolRequest request)
         {
-            var tool = new Tool(request.Name, request.Description);
-            
-            var tags = request.Tags
-                .Where(tag => !string.IsNullOrWhiteSpace(tag))
-                .Distinct() ?? Enumerable.Empty<string>();
-
-
-            foreach (var tagName in tags)
+            var validation = _createValidator.Validate(request);
+            if (!validation.IsValid)
             {
-                var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
-
-                if(existingTag != null)
-                {
-                    tool.Tags.Add(existingTag);
-                }
-                else
-                {
-                    tool.Tags.Add(new Tag(tagName));
-                }
+                var errors = validation.Errors.Select(e => new Error($"validation.{e.PropertyName}", e.ErrorMessage));
+                _notificationContext.AddError(errors);
+                return null;
             }
-            await _toolRepository.AddToolAsync(tool);
-            await _toolRepository.SaveChangesAsync();
 
-            var response = MapToToolResponse(tool);
+            try
+            {
+                var tool = new Tool(request.Name, request.Description);
+                var tags = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
 
-            return Result<ToolResponse>.Success(response);
+                foreach (var tagName in tags)
+                {
+                    var normalized = tagName.Trim().ToLower();
+                    var existingTag = await _tagRepository.GetTagByNameAsync(normalized);
+                    tool.Tags.Add(existingTag ?? new Tag(normalized));
+                }
+
+                await _toolRepository.AddToolAsync(tool);
+                await _toolRepository.SaveChangesAsync();
+
+                return MapToToolResponse(tool);
+            }
+            catch (DomainException ex)
+            {
+                _notificationContext.AddErrors(ex.Code, ex.Message);
+                return null;
+            }
         }
+            
+        
 
-        public async Task <Result<List<ToolResponse>>> GetAllToolsAsync()
+        public async Task<List<ToolResponse>> GetAllToolsAsync()
         {
             var tools = await _toolRepository.GetAllAsync();
-            var response = tools.Select(MapToToolResponse).ToList();
-            return Result<List<ToolResponse>>.Success(response);
+            return tools.Select(MapToToolResponse).ToList();
+            
         }
 
-        public async Task<Result<ToolResponse>> GetToolByIdAsync(Guid id)
+        public async Task<ToolResponse?> GetToolByIdAsync(Guid id)
         {
             var tool = await _toolRepository.GetToolByIdAsync(id);
 
             if (tool == null)
             {
-                return Result<ToolResponse>.Failure(new List<Error>
-                    { new Error("tool.notFound", "Ferramenta não encontrada") });
+                _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada!");
+                return null;
             }
 
-            return Result<ToolResponse>.Success(MapToToolResponse(tool));
+            return MapToToolResponse(tool);
         }
 
-        public async Task<Result<IEnumerable<ToolResponse>>> SearchToolsAsync(string query)
+        public async Task<IEnumerable<ToolResponse>> SearchToolsAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
-                return Result<IEnumerable<ToolResponse>>.Failure(new List<Error>
-                    { new Error("search.invalidQuery", "A consulta de pesquisa não pode ser vazia") });
+                _notificationContext.AddErrors("search.invalidQuery", "A consulta de pesquisa não pode ser vazia.");
+                return Enumerable.Empty<ToolResponse>();
             }
 
             var tools = await _toolRepository.SearchAsync(query);
-            var response = tools.Select(MapToToolResponse).ToList();
-            return Result<IEnumerable<ToolResponse>>.Success(response);
+            return tools.Select(MapToToolResponse);
         }
 
-        public async Task<Result<bool>> UpdateToolAsync(Guid id, UpdateToolRequest request)
+        public async Task<bool> UpdateToolAsync(Guid id, UpdateToolRequest request)
         {
+            var validation = _updateValidator.Validate(request);
+            if (!validation.IsValid)
+            {
+                var errors = validation.Errors.Select(e => new Error($"validation.{e.PropertyName}", e.ErrorMessage));
+                _notificationContext.AddError(errors);
+                return false;
+            }
+
             var tool = await _toolRepository.GetToolByIdAsync(id);
             if (tool == null)
             {
-                return Result<bool>.Failure(new List<Error>
-                    { new Error("tool.notFound", "Ferramenta não encontrada") });
+                _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada.");
+                return false;
             }
 
-            tool.Update(request.Name, request.Description);
+            try
+            {
+                tool.Update(request.Name, request.Description);
+            }
+            catch (DomainException ex)
+            {
+                _notificationContext.AddErrors(ex.Code, ex.Message);
+                return false;
+            }
+
             tool.Tags.Clear();
-
-            var tags = request.Tags
-                .Where(tag => !string.IsNullOrWhiteSpace(tag))
-                .Distinct() ?? Enumerable.Empty<string>();
-
+            var tags = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct() ?? Enumerable.Empty<string>();
             foreach (var tagName in tags)
             {
-                var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
-                tool.Tags.Add(existingTag ?? new Tag { Name = tagName });
+                var normalized = tagName.Trim().ToLower();
+                var existingTag = await _tagRepository.GetTagByNameAsync(normalized);
+                tool.Tags.Add(existingTag ?? new Tag(normalized));
             }
+
             await _toolRepository.SaveChangesAsync();
-            return Result<bool>.Success(true);
+            return true;
         }
-        public async Task<Result<bool>> DeleteToolAsync(Guid id)
+        public async Task<bool> DeleteToolAsync(Guid id)
         {
             var tool = await _toolRepository.GetToolByIdAsync(id);
             if (tool == null)
             {
-                return Result<bool>.Failure(new List<Error>
-                    { new Error("tool.notFound", "Ferramenta não encontrada") });
+                _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada.1");
+                return false;
             }
 
             _toolRepository.RemoveTool(tool);
             await _toolRepository.SaveChangesAsync();
-            return Result<bool>.Success(true);
+
+            return true;
         }
 
         private static ToolResponse MapToToolResponse(Tool tool)

@@ -1,6 +1,6 @@
-﻿using FluentValidation;
-using System.Text.Json;
+﻿
 using Tools.Api.Responses;
+using Tools.Application.Common.Result;
 using Tools.Domain.Exceptions;
 
 namespace Tools.Api.Middleware
@@ -24,33 +24,37 @@ namespace Tools.Api.Middleware
             {
                 await _next(httpContext);
             }
-            catch (ValidationException ex) 
-            {
-
-                    httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    httpContext.Response.ContentType = "application/json";
-
-                    var errors = ex.Errors.Select(x => x.ErrorMessage);
-
-                    await httpContext.Response.WriteAsJsonAsync(ApiResponse<object>.FailureResponse(errors));
-            }
             catch (DomainException ex)
             {
+                if (!httpContext.Response.HasStarted)
+                {
                     httpContext.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
                     httpContext.Response.ContentType = "application/json";
 
-                await httpContext.Response.WriteAsJsonAsync(ApiResponse<object>.FailureResponse(ex.Message));
+                    var errors = new[]
+                    {
+                        new Error(ex.Code, ex.Message)
+                    };
+
+                    await httpContext.Response.WriteAsJsonAsync(ApiResponse<object>.FailureResponse(errors));
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro inexperado");
+                if (!httpContext.Response.HasStarted)
+                {
+                    httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                _logger.LogError(ex, "Erro inesperado");
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 httpContext.Response.ContentType = "application/json";
-                await httpContext.Response.WriteAsJsonAsync(
-                    ApiResponse<object>.FailureResponse(
-                        new[] { "Ocorreu um erro inesperado. Por favor, tente novamente mais tarde." }
-                    )
-                );
+
+                var errors = new[]
+                {
+                    new Error("server.error", "Ocorreu um erro inesperado. Por favor contate o administrador.")
+                };
+
+                await httpContext.Response.WriteAsJsonAsync(ApiResponse<object>.FailureResponse(errors));
+                }
             }
         }
     }

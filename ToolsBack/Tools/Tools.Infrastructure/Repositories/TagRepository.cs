@@ -21,6 +21,7 @@ namespace Tools.Infrastructure.Repositories
 
         public async Task<Tag?> GetTagByNameAsync(string name)
         {
+            name = name?.Trim().ToLower();
             return await _context.Tags.FirstOrDefaultAsync(t => t.Name == name);
         }
     }
