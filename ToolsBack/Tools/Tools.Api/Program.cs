@@ -14,6 +14,16 @@ using Tools.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("Angular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers(opt =>
 {
     opt.Filters.Add<NotificationFilter>();
@@ -54,6 +64,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+app.UseCors();
 
 app.UseMiddleware<ExceptionMiddleware>();
 

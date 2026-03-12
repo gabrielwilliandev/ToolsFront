@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ListaService } from '../../listaService';
 import { Tag } from '../tag/tag';
 import { MatIconModule } from '@angular/material/icon';
+import { Ferramenta } from '../../models/ferramentas';
 @Component({
   selector: 'app-card',
   imports: [Tag, MatIconModule],
@@ -11,22 +12,30 @@ import { MatIconModule } from '@angular/material/icon';
 export class Card {
   service = inject(ListaService);
 
+  ferramentas: Ferramenta[] = [];
 
-
-  deletarItem(item: number) {
-    this.service.removerItem(item);
+  ngOnInit(){
+    this.service.carregarCache();
+    this.ferramentas = this.service.getCache();
   }
 
-  excluirLista() {
-    this.service.limparLista();
+  deletarItem(id: string) {
+    this.service.removerItem(id).subscribe(() => {
+      this.ferramentas = this.service.getCache();
+    })
   }
 
   atualizarTag(itemIndex: number, tagIndex: number, novaTag: string) {
-    const lista = this.service.getLista();
-    if (!lista[itemIndex]) return;
+    const lista = this.ferramentas[itemIndex]
+    if (!lista) return;
 
-    const novasTags = [...lista[itemIndex].tags];
+    const novasTags = [...lista.tags];
     novasTags[tagIndex] = novaTag;
-    this.service.atualizaTags(itemIndex, novasTags);
+
+    this.service.atualizar(lista.id, {
+      title: lista.title,
+      description: lista.description,
+      tags: novasTags
+    }).subscribe();
   }
 }

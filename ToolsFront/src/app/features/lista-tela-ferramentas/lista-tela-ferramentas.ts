@@ -26,8 +26,8 @@ export class ListaTelaFerramentas implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.service.carregar();
-    this.botaoVisibilidade = this.service.getLista().length > 0;
+    this.service.carregarCache;
+    this.botaoVisibilidade = this.service.listar.length > 0;
   }
 
   adicionarFerramenta() {
@@ -36,8 +36,8 @@ export class ListaTelaFerramentas implements OnInit {
       return;
     }
     this.service.adicionar({
-      nome: this.nome,
-      descricao: this.descricao,
+      title: this.nome,
+      description: this.descricao,
       tags: [...this.listaTags],
     });
 

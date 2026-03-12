@@ -1,9 +1,9 @@
 <div class="ferramentas-organizacao">
-      @for (item of service.getLista(); track $index; let itemIndex = $index) {
+      @for (item of ferramentas; track $index; let itemIndex = $index) {
         <div class="lista-ferramentas">
-          <span class="texto">{{ item.nome }}</span>
+          <span class="texto">{{ item.title }}</span>
           <div class="descrition">
-            {{item.descricao}}
+            {{item.description}}
           </div>
           <div class="lado-direito">
             <div class="tags">
@@ -11,15 +11,10 @@
                 <app-tag [tag]="tag" (editar)="atualizarTag(itemIndex, tagIndex, $event)"></app-tag>
               }
             </div>
-            <button class="remover-item" (click)="deletarItem($index)">
+            <button class="remover-item" (click)="deletarItem(item.id)">
               <mat-icon>close</mat-icon>
             </button>
           </div>
         </div>
-      }
-      @if(service.getLista().length > 0) {
-        <button class="limpar-lista" (click)="excluirLista()">
-          Excluir
-        </button>
       }
     </div>

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Ferramenta } from './models/ferramentas';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { CreateFerramentaRequest } from './models/create-ferramenta-request';
 import { UpdateFerramentaRequest } from './models/update-ferramenta-request';
+import { ApiResponse } from './models/api-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ListaService {
-  private apiUrl = 'https://localhost:5001/api/tools';
+  private apiUrl = 'https://localhost:7130/api/tools';
   private readonly key = 'ferramentas-cache';
 
   public listaFerramentas: Ferramenta[] = [];
@@ -17,11 +18,11 @@ export class ListaService {
   constructor(private http: HttpClient) {}
 
   listar(): Observable<Ferramenta[]> {
-    return this.http.get<Ferramenta[]>(this.apiUrl).pipe(
-      tap((data) => {
+    return this.http.get<ApiResponse<Ferramenta[]>>(this.apiUrl).pipe(
+      map(response => response.data), tap((data) => {
         this.listaFerramentas = data;
         this.salvarNoStorage();
-      }),
+      })
     );
   }
 
