@@ -1,53 +1,71 @@
 import { Injectable } from '@angular/core';
-import { Ferramenta } from './features/lista-tela-ferramentas/ferramenta';
+import { Ferramenta } from './models/ferramentas';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+import { CreateFerramentaRequest } from './models/create-ferramenta-request';
+import { UpdateFerramentaRequest } from './models/update-ferramenta-request';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ListaService {
-
-  
-  private readonly key = 'ferramentas';
+  private apiUrl = 'https://localhost:5001/api/tools';
+  private readonly key = 'ferramentas-cache';
 
   public listaFerramentas: Ferramenta[] = [];
 
-  getLista(): Ferramenta[]{
-    return [...this.listaFerramentas];
+  constructor(private http: HttpClient) {}
+
+  listar(): Observable<Ferramenta[]> {
+    return this.http.get<Ferramenta[]>(this.apiUrl).pipe(
+      tap((data) => {
+        this.listaFerramentas = data;
+        this.salvarNoStorage();
+      }),
+    );
   }
 
-  carregar(){
-    this.listaFerramentas = JSON.parse(localStorage.getItem(this.key) || '[]');
+  adicionar(request: CreateFerramentaRequest) {
+    return this.http.post<Ferramenta>(this.apiUrl, request).pipe(
+      tap((tool) => {
+        this.listaFerramentas.push(tool);
+        this.salvarNoStorage();
+      }),
+    );
+  }
+  atualizar(id: string, request: UpdateFerramentaRequest): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, request).pipe(
+      tap(() => {
+        this.listar().subscribe();
+      }),
+    );
   }
 
-  
-  adicionar(f: Ferramenta){
-    
-    this.listaFerramentas.push(f);
-    this.salvarNoStorage();
-    
+  removerItem(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        this.listaFerramentas = this.listaFerramentas.filter((t) => t.id !== id);
+        this.salvarNoStorage();
+      }),
+    );
   }
-  atualizaTags(index: number, tags: string[]){
-    if(!this.listaFerramentas[index]) return;
 
-    this.listaFerramentas[index] = {
-      ...this.listaFerramentas[index],
-      tags: [...tags]
-    };
-    this.salvarNoStorage();
+  pesquisar(query: string) {
+    return this.http.get<Ferramenta[]>(`${this.apiUrl}/search?query=${query}`);
   }
-  
-  removerItem(index: number){
-    this.listaFerramentas.splice(index, 1);
-    this.salvarNoStorage();
+
+  carregarCache() {
+    const data = localStorage.getItem(this.key);
+    if (data) {
+      this.listaFerramentas = JSON.parse(data);
+    }
   }
-  
-  limparLista(){
-   this.listaFerramentas = []
-   localStorage.removeItem(this.key);
-  }
-  
-  salvarNoStorage(){
+
+  private salvarNoStorage() {
     localStorage.setItem(this.key, JSON.stringify(this.listaFerramentas));
   }
-}
 
+  getCache(): Ferramenta[] {
+    return [...this.listaFerramentas];
+  }
+}
