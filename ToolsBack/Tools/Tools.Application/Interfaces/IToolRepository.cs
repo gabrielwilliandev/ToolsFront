@@ -11,5 +11,7 @@ namespace Tools.Application.Interfaces
         void RemoveTool(Tool tool);
         Task SaveChangesAsync();
 
+        Task<Tool?> GetToolByIdWithTagsAsync(Guid id);
+
     }
 }

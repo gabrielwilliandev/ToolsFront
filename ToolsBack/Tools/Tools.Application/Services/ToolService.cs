@@ -108,7 +108,7 @@ namespace Tools.Application.Services
                 return false;
             }
 
-            var tool = await _toolRepository.GetToolByIdAsync(id);
+            var tool = await _toolRepository.GetToolByIdWithTagsAsync(id);
             if (tool == null)
             {
                 _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada.");
@@ -118,24 +118,47 @@ namespace Tools.Application.Services
             try
             {
                 tool.Update(request.Name, request.Description);
+
+                var newTagNames = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct().ToList() ?? new List<string>();
+
+                var tagsToRemove = tool.Tags.Where(t => !newTagNames.Contains(t.Name)).ToList();
+
+                foreach( var tag in tagsToRemove)
+                {
+                    tool.Tags.Remove(tag);
+                }
+
+                var currentTagNames = tool.Tags.Select(t => t.Name).ToList();
+                var tagsToAdd = newTagNames.Where(name => !currentTagNames.Contains(name));
+
+                foreach (var tagName in tagsToAdd)
+                {
+                    var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
+
+                    if(existingTag != null)
+                    {
+                        tool.Tags.Add(existingTag);
+                    }
+                    else
+                    {
+                        tool.Tags.Add(new Tag(tagName));
+                    }
+
+                }
+                    await _toolRepository.SaveChangesAsync();
+                    return true;
             }
             catch (DomainException ex)
             {
                 _notificationContext.AddErrors(ex.Code, ex.Message);
                 return false;
             }
-
-            tool.Tags.Clear();
-            var tags = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct() ?? Enumerable.Empty<string>();
-            foreach (var tagName in tags)
+            catch(Exception ex)
             {
-                var normalized = tagName.Trim().ToLower();
-                var existingTag = await _tagRepository.GetTagByNameAsync(normalized);
-                tool.Tags.Add(existingTag ?? new Tag(normalized));
+                var message = ex.InnerException?.Message ?? ex.Message;
+                _notificationContext.AddErrors("database.error", $"Erro: {message}");
+                return false;
             }
-
-            await _toolRepository.SaveChangesAsync();
-            return true;
         }
         public async Task<bool> DeleteToolAsync(Guid id)
         {

@@ -57,5 +57,11 @@ namespace Tools.Infrastructure.Repositories
                 )
                 .ToListAsync();
         }
+        public async Task<Tool?> GetToolByIdWithTagsAsync(Guid id)
+        {
+            return await _context.Tools
+                .Include(t => t.Tags)
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

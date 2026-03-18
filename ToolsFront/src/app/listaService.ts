@@ -1,72 +1,83 @@
 import { Injectable } from '@angular/core';
 import { Ferramenta } from './models/ferramentas';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, tap } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { CreateFerramentaRequest } from './models/create-ferramenta-request';
 import { UpdateFerramentaRequest } from './models/update-ferramenta-request';
 import { ApiResponse } from './models/api-response';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ListaService {
   private apiUrl = 'https://localhost:7130/api/tools';
   private readonly key = 'ferramentas-cache';
 
-  public listaFerramentas: Ferramenta[] = [];
+  // estado reativo
+  private _ferramentas$ = new BehaviorSubject<Ferramenta[]>([]);
+  public ferramentas$ = this._ferramentas$.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.carregarCache(); // inicializa do storage
+  }
 
   listar(): Observable<Ferramenta[]> {
     return this.http.get<ApiResponse<Ferramenta[]>>(this.apiUrl).pipe(
-      map(response => response.data), tap((data) => {
-        this.listaFerramentas = data;
-        this.salvarNoStorage();
+      map(res => res.data),
+      tap(data => {
+        this._ferramentas$.next(data);
+        this.salvarNoStorage(data);
       })
     );
   }
 
-  adicionar(request: CreateFerramentaRequest) {
-    return this.http.post<Ferramenta>(this.apiUrl, request).pipe(
-      tap((tool) => {
-        this.listaFerramentas.push(tool);
-        this.salvarNoStorage();
-      }),
+  adicionar(request: CreateFerramentaRequest): Observable<Ferramenta> {
+    return this.http.post<ApiResponse<Ferramenta>>(this.apiUrl, request).pipe(
+      map(res => res.data),
+      tap(tool => {
+        const atual = this._ferramentas$.value;
+        const novo = [...atual, tool];
+        this._ferramentas$.next(novo);
+        this.salvarNoStorage(novo);
+      })
     );
   }
-  atualizar(id: string, request: UpdateFerramentaRequest): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, request).pipe(
+
+  atualizar(id: string, request: UpdateFerramentaRequest) {
+    return this.http.put<ApiResponse<Ferramenta> | void>(`${this.apiUrl}/${id}`, request).pipe(
       tap(() => {
-        this.listar().subscribe();
-      }),
+        // opcional: recarrega do backend para garantir estado consistente
+        this.listar().subscribe(); // ou melhor: atualizar localmente
+      })
     );
   }
 
   removerItem(id: string) {
-    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`).pipe(
       tap(() => {
-        this.listaFerramentas = this.listaFerramentas.filter((t) => t.id !== id);
-        this.salvarNoStorage();
-      }),
+        const novo = this._ferramentas$.value.filter(t => t.id !== id);
+        this._ferramentas$.next(novo);
+        this.salvarNoStorage(novo);
+      })
     );
-  }
-
-  pesquisar(query: string) {
-    return this.http.get<Ferramenta[]>(`${this.apiUrl}/search?query=${query}`);
   }
 
   carregarCache() {
     const data = localStorage.getItem(this.key);
     if (data) {
-      this.listaFerramentas = JSON.parse(data);
+      try {
+        const parsed = JSON.parse(data) as Ferramenta[];
+        this._ferramentas$.next(parsed);
+      } catch {
+        this._ferramentas$.next([]);
+      }
     }
   }
 
-  private salvarNoStorage() {
-    localStorage.setItem(this.key, JSON.stringify(this.listaFerramentas));
+  private salvarNoStorage(data: Ferramenta[]) {
+    localStorage.setItem(this.key, JSON.stringify(data));
   }
 
   getCache(): Ferramenta[] {
-    return [...this.listaFerramentas];
+    return [...this._ferramentas$.value];
   }
 }

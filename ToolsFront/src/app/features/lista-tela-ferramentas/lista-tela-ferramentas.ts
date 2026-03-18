@@ -26,8 +26,17 @@ export class ListaTelaFerramentas implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.service.carregarCache;
-    this.botaoVisibilidade = this.service.listar.length > 0;
+    this.service.carregarCache();
+
+    this.service.listar().subscribe({
+      next: (data) => {
+        this.botaoVisibilidade = data.length> 0;
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastrService.error('Erro ao carregar ferramentas!')
+      }
+    })
   }
 
   adicionarFerramenta() {
@@ -36,12 +45,21 @@ export class ListaTelaFerramentas implements OnInit {
       return;
     }
     this.service.adicionar({
-      title: this.nome,
+      name: this.nome,
       description: this.descricao,
       tags: [...this.listaTags],
-    });
-
-    this.limparInputs();
+    }).subscribe({
+      next: () => {
+        this.toastrService.success('Ferramenta adicionada!');
+        this.limparInputs();
+        this.botaoVisibilidade = true;
+        this.service.listar().subscribe();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastrService.error('Erro ao adicionar ferramenta!')
+      }
+    })
 
     this.botaoVisibilidade = true;
   }

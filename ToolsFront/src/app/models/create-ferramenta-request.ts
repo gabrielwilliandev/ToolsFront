@@ -1,5 +1,5 @@
 export interface CreateFerramentaRequest{
-    title: string;
+    name: string;
     description: string;
     tags: string[];
 }
