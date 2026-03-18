@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.infrastructure\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|solutionrelative:tools.infrastructure\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.infrastructure\\repositories\\toolrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|solutionrelative:tools.infrastructure\\repositories\\toolrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CF0C50A2-1376-44BF-8635-4EB2469DFA08}|Tools.Application\\Tools.Application.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.application\\services\\toolservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF0C50A2-1376-44BF-8635-4EB2469DFA08}|Tools.Application\\Tools.Application.csproj|solutionrelative:tools.application\\services\\toolservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -25,14 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{9E0E8ED8-DA6D-4442-96CA-45D8AAF791C0}|Tools.Api\\Tools.Api.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.api\\controllers\\toolcontroller\\toolscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E0E8ED8-DA6D-4442-96CA-45D8AAF791C0}|Tools.Api\\Tools.Api.csproj|solutionrelative:tools.api\\controllers\\toolcontroller\\toolscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.infrastructure\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|solutionrelative:tools.infrastructure\\repositories\\tagrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.infrastructure\\repositories\\toolrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7EF6B51-C27C-4C40-B1F3-DE2638AB180F}|Tools.Infrastructure\\Tools.Infrastructure.csproj|solutionrelative:tools.infrastructure\\repositories\\toolrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B88F8EE-CF98-4BBC-A9CE-1C4D161A08C2}|Tools.Domain\\Tools.Domain.csproj|c:\\users\\u00613\\onedrive - brb corretora de seguros\\\u00E1rea de trabalho\\vuttr\\toolsback\\tools\\tools.domain\\entities\\tool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -118,7 +118,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -126,7 +126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "NotificationFilter.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Api\\Filters\\NotificationFilter.cs",
               "RelativeDocumentMoniker": "Tools.Api\\Filters\\NotificationFilter.cs",
@@ -139,20 +139,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ExceptionMiddleware.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Api\\Middlewares\\ExceptionMiddleware.cs",
               "RelativeDocumentMoniker": "Tools.Api\\Middlewares\\ExceptionMiddleware.cs",
               "ToolTip": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Api\\Middlewares\\ExceptionMiddleware.cs",
               "RelativeToolTip": "Tools.Api\\Middlewares\\ExceptionMiddleware.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAEwDoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-06T14:06:33.442Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "ApiResponse.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Api\\Responses\\ApiResponse.cs",
               "RelativeDocumentMoniker": "Tools.Api\\Responses\\ApiResponse.cs",
@@ -165,7 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Error.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Application\\Common\\Result\\Error.cs",
               "RelativeDocumentMoniker": "Tools.Application\\Common\\Result\\Error.cs",
@@ -178,7 +178,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "TagRepository.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Infrastructure\\Repositories\\TagRepository.cs",
               "RelativeDocumentMoniker": "Tools.Infrastructure\\Repositories\\TagRepository.cs",
@@ -191,20 +191,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ToolService.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Application\\Services\\ToolService.cs",
               "RelativeDocumentMoniker": "Tools.Application\\Services\\ToolService.cs",
-              "ToolTip": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Application\\Services\\ToolService.cs",
-              "RelativeToolTip": "Tools.Application\\Services\\ToolService.cs",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAUwKEAAAAJAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Application\\Services\\ToolService.cs*",
+              "RelativeToolTip": "Tools.Application\\Services\\ToolService.cs*",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAUwJoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-05T17:07:02.303Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "ToolsController.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Api\\Controllers\\ToolController\\ToolsController.cs",
               "RelativeDocumentMoniker": "Tools.Api\\Controllers\\ToolController\\ToolsController.cs",
@@ -217,13 +217,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
               "Title": "ToolRepository.cs",
               "DocumentMoniker": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Infrastructure\\Repositories\\ToolRepository.cs",
               "RelativeDocumentMoniker": "Tools.Infrastructure\\Repositories\\ToolRepository.cs",
               "ToolTip": "C:\\Users\\u00613\\OneDrive - BRB CORRETORA DE SEGUROS\\\u00C1rea de Trabalho\\VUTTR\\ToolsBack\\Tools\\Tools.Infrastructure\\Repositories\\ToolRepository.cs",
               "RelativeToolTip": "Tools.Infrastructure\\Repositories\\ToolRepository.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAgwB8AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAA/wEIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-04T13:40:40.288Z",
               "EditorCaption": ""

@@ -144,6 +144,7 @@ namespace Tools.Application.Services
                         tool.Tags.Add(new Tag(tagName));
                     }
 
+
                 }
                     await _toolRepository.SaveChangesAsync();
                     return true;
