@@ -119,42 +119,40 @@ namespace Tools.Application.Services
             {
                 tool.Update(request.Name, request.Description);
 
-                var newTagNames = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct().ToList() ?? new List<string>();
+                var newTagNames = request.Tags?
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .Select(t => t.Trim().ToLower())
+                .Distinct()
+                .ToList() ?? new List<string>();
 
-                var tagsToRemove = tool.Tags.Where(t => !newTagNames.Contains(t.Name)).ToList();
+                var tagsToRemove = tool.Tags.Where(t => !newTagNames.Contains(t.Name.ToLower()))
+                    .ToList();
 
-                foreach( var tag in tagsToRemove)
+                foreach (var tag in tagsToRemove)
                 {
                     tool.Tags.Remove(tag);
                 }
 
-                var currentTagNames = tool.Tags.Select(t => t.Name).ToList();
+                var currentTagNames = tool.Tags.Select(t => t.Name.ToLower()).ToList();
                 var tagsToAdd = newTagNames.Where(name => !currentTagNames.Contains(name));
 
                 foreach (var tagName in tagsToAdd)
                 {
                     var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
 
-                    if(existingTag != null)
-                    {
-                        tool.Tags.Add(existingTag);
-                    }
-                    else
-                    {
-                        tool.Tags.Add(new Tag(tagName));
-                    }
+                    tool.Tags.Add(existingTag ?? new Tag(tagName));
 
 
                 }
-                    await _toolRepository.SaveChangesAsync();
-                    return true;
+                await _toolRepository.SaveChangesAsync();
+                return true;
             }
             catch (DomainException ex)
             {
                 _notificationContext.AddErrors(ex.Code, ex.Message);
                 return false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var message = ex.InnerException?.Message ?? ex.Message;
                 _notificationContext.AddErrors("database.error", $"Erro: {message}");

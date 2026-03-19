@@ -16,6 +16,10 @@ namespace Tools.Infrastructure.Context
                 .HasMany(t => t.Tags)
                 .WithMany(t => t.Tools)
                 .UsingEntity(j => j.ToTable("ToolTags"));
+
+            modelBuilder.Entity<Tag>()
+                .Property(t => t.Id)
+                .ValueGeneratedOnAdd();
         }
 
         public DbSet<Tool> Tools { get; set; }
