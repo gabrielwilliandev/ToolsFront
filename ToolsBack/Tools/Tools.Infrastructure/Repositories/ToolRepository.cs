@@ -7,9 +7,9 @@ namespace Tools.Infrastructure.Repositories
 {
     public class ToolRepository : IToolRepository
     {
-        private readonly ToolsDbContext _context;
+        private readonly AppDbContext _context;
 
-        public ToolRepository(ToolsDbContext context)
+        public ToolRepository(AppDbContext context)
         {
             _context = context;
         }

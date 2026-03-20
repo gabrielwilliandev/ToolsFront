@@ -201,4 +201,7 @@ C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\Tool
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\Tools.Api.pdb
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\Tools.Api.genruntimeconfig.cache
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\ref\Tools.Api.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\BouncyCastle.Cryptography.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\MailKit.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\bin\Debug\net9.0\MimeKit.dll
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Api\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

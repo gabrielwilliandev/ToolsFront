@@ -9,7 +9,7 @@ using Tools.Infrastructure.Context;
 
 namespace Tools.Infrastructure.Migrations
 {
-    [DbContext(typeof(ToolsDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class ToolsDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -30,6 +30,40 @@ namespace Tools.Infrastructure.Migrations
                     b.HasIndex("ToolsId");
 
                     b.ToTable("ToolTags", (string)null);
+                });
+
+            modelBuilder.Entity("Tools.Domain.Entities.Contact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Tools.Domain.Entities.Tag", b =>

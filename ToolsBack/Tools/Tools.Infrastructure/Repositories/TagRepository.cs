@@ -7,9 +7,9 @@ namespace Tools.Infrastructure.Repositories
 {
     public class TagRepository : ITagRepository
     {
-        private readonly ToolsDbContext _context;
+        private readonly AppDbContext _context;
 
-        public TagRepository(ToolsDbContext context)
+        public TagRepository(AppDbContext context)
         {
             _context = context;
         }

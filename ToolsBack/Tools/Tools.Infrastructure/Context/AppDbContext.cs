@@ -3,9 +3,9 @@ using Tools.Domain.Entities;
 
 namespace Tools.Infrastructure.Context
 {
-    public class ToolsDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public ToolsDbContext(DbContextOptions<ToolsDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
@@ -20,9 +20,20 @@ namespace Tools.Infrastructure.Context
             modelBuilder.Entity<Tag>()
                 .Property(t => t.Id)
                 .ValueGeneratedOnAdd();
+
+          
+            modelBuilder.Entity<Contact>()
+                .Property(x => x.Category)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Contact>()
+                .Property(x => x.Status)
+                .HasConversion<string>();
+        
         }
 
         public DbSet<Tool> Tools { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

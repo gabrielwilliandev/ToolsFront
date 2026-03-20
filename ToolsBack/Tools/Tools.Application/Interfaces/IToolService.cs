@@ -1,7 +1,7 @@
 ﻿using Tools.Application.Common.Result;
 using Tools.Application.DTOs.Tools;
 
-namespace Tools.Application.Services
+namespace Tools.Application.Interfaces
 {
     public interface IToolService
     {

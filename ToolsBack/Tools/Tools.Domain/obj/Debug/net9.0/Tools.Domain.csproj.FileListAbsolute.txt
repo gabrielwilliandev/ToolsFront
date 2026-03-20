@@ -10,3 +10,4 @@ C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\Tool
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Domain\obj\Debug\net9.0\refint\Tools.Domain.dll
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Domain\obj\Debug\net9.0\Tools.Domain.pdb
 C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Domain\obj\Debug\net9.0\ref\Tools.Domain.dll
+C:\Users\u00613\OneDrive - BRB CORRETORA DE SEGUROS\Área de Trabalho\VUTTR\ToolsBack\Tools\Tools.Domain\obj\Debug\net9.0\Tools.Domain.csproj.AssemblyReference.cache

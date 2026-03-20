@@ -1,7 +1,7 @@
 ﻿// file: Tools.Api\Controllers\ToolController\ToolsController.cs
 using Microsoft.AspNetCore.Mvc;
 using Tools.Application.DTOs.Tools;
-using Tools.Application.Services;
+using Tools.Application.Interfaces;
 
 namespace Tools.Api.Controllers.ToolController
 {
