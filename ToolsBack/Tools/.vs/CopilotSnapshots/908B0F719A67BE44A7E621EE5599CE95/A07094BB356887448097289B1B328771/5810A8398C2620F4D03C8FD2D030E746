@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Moq;
+using Xunit;
+using Tools.Application.Services;
+using Tools.Application.Interfaces;
+using Tools.Application.Notifications;
+using Tools.Application.DTOs.Tools;
+using Tools.Domain.Entities;
+using FluentValidation;
+using Tools.Application.Common.Result;
+
+namespace Tools.Application.Tests
+{
+    public class ToolServiceTests
+    {
+        [Fact]
+        public async Task CreateTool_WithInvalidRequest_AddsNotificationsAndReturnsNull()
+        {
+            var toolRepoMock = new Mock<IToolRepository>();
+            var tagRepoMock = new Mock<ITagRepository>();
+            var createValidatorMock = new Mock<IValidator<CreateToolRequest>>();
+            var updateValidatorMock = new Mock<IValidator<UpdateToolRequest>>();
+            var notificationContext = new NotificationContext();
+
+            createValidatorMock.Setup(v => v.Validate(It.IsAny<CreateToolRequest>()))
+                .Returns(new FluentValidation.Results.ValidationResult(new[] {
+                    new FluentValidation.Results.ValidationFailure("Name", "required")
+                }));
+
+            var service = new ToolService(toolRepoMock.Object, tagRepoMock.Object, createValidatorMock.Object, updateValidatorMock.Object, notificationContext);
+
+            var result = await service.CreateToolAsync(new CreateToolRequest { Name = "", Description = "desc" });
+
+            Assert.Null(result);
+            Assert.True(notificationContext.HasErrors);
+        }
+
+        [Fact]
+        public async Task CreateTool_WithValidRequest_CreatesTool()
+        {
+            var toolRepoMock = new Mock<IToolRepository>();
+            var tagRepoMock = new Mock<ITagRepository>();
+            var createValidatorMock = new Mock<IValidator<CreateToolRequest>>();
+            var updateValidatorMock = new Mock<IValidator<UpdateToolRequest>>();
+            var notificationContext = new NotificationContext();
+
+            createValidatorMock.Setup(v => v.Validate(It.IsAny<CreateToolRequest>()))
+                .Returns(new FluentValidation.Results.ValidationResult());
+
+            tagRepoMock.Setup(t => t.GetTagByNameAsync(It.IsAny<string>()))
+                .ReturnsAsync((Tag?)null);
+
+            toolRepoMock.Setup(r => r.AddToolAsync(It.IsAny<Tool>())).Returns(Task.CompletedTask);
+            toolRepoMock.Setup(r => r.SaveChangesAsync()).Returns(Task.CompletedTask);
+
+            var service = new ToolService(toolRepoMock.Object, tagRepoMock.Object, createValidatorMock.Object, updateValidatorMock.Object, notificationContext);
+
+            var req = new CreateToolRequest { Name = "Tool1", Description = "Desc", Tags = new List<string> { "tag1" } };
+
+            var result = await service.CreateToolAsync(req);
+
+            Assert.NotNull(result);
+            Assert.Equal("Tool1", result.Name);
+            Assert.Single(result.Tags);
+        }
+    }
+}

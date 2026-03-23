@@ -1,0 +1,170 @@
+﻿using FluentValidation;
+using System.Xml.Linq;
+using Tools.Application.Common.Result;
+using Tools.Application.DTOs.Tools;
+using Tools.Application.Interfaces;
+using Tools.Application.Notifications;
+using Tools.Domain.Entities;
+using Tools.Domain.Exceptions;
+
+namespace Tools.Application.Services
+{
+    public class ToolService : IToolService
+    {
+        private readonly IToolRepository _toolRepository;
+        private readonly ITagRepository _tagRepository;
+        private readonly IValidator<CreateToolRequest> _createValidator;
+        private readonly IValidator<UpdateToolRequest> _updateValidator;
+        private readonly NotificationContext _notificationContext;
+
+        public ToolService(
+            IToolRepository toolRepository,
+            ITagRepository tagRepository,
+            IValidator<CreateToolRequest> createValidator,
+            IValidator<UpdateToolRequest> updateValidator, NotificationContext notificationContext)
+        {
+            _toolRepository = toolRepository;
+        _tagRepository = tagRepository;
+            _createValidator = createValidator;
+            _updateValidator = updateValidator;
+            _notificationContext = notificationContext;
+        }
+
+        public async Task<ToolResponse?> CreateToolAsync(CreateToolRequest request)
+        {
+            var validation = _createValidator.Validate(request);
+            if (!validation.IsValid)
+            {
+                var errors = validation.Errors
+                    .Select(e => new Error($"validation.{e.PropertyName}", e.ErrorMessage));
+
+                _notificationContext.AddError(errors);
+                return null;
+            }
+
+            
+                var tool = new Tool(request.Name, request.Description);
+
+                var tags = request.Tags?
+                    .Where(tag => !string.IsNullOrWhiteSpace(tag))
+                    .Distinct() ?? Enumerable.Empty<string>();
+
+                foreach (var tagName in tags)
+                {
+                    var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
+
+                    if (existingTag != null)
+                    {
+                        tool.Tags.Add(existingTag);
+                    }
+                    else
+                    {
+                        tool.Tags.Add(new Tag(tagName));
+                    }
+                }
+
+                await _toolRepository.AddToolAsync(tool);
+                await _toolRepository.SaveChangesAsync();
+
+                return MapToToolResponse(tool);
+                
+            }
+            
+        
+
+        public async Task<List<ToolResponse>> GetAllToolsAsync()
+        {
+            var tools = await _toolRepository.GetAllAsync();
+            return tools.Select(MapToToolResponse).ToList();
+            
+        }
+
+        public async Task<ToolResponse?> GetToolByIdAsync(Guid id)
+        {
+            var tool = await _toolRepository.GetToolByIdAsync(id);
+
+            if (tool == null)
+            {
+                _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada!");
+                return null;
+            }
+
+            return MapToToolResponse(tool);
+        }
+
+        public async Task<IEnumerable<ToolResponse>> SearchToolsAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                _notificationContext.AddErrors("search.invalidQuery", "A consulta de pesquisa não pode ser vázia.");
+            }
+
+            var tools = await _toolRepository.SearchAsync(query);
+            return tools.Select(MapToToolResponse).ToList();
+             
+        }
+
+        public async Task<bool> UpdateToolAsync(Guid id, UpdateToolRequest request)
+        {
+            var validation = _updateValidator.Validate(request);
+            if (!validation.IsValid)
+            {
+                var errors = validation.Errors
+                    .Select(e => new Error($"validation.{e.PropertyName}", e.ErrorMessage));
+
+                _notificationContext.AddError(errors);
+                return false;
+                    
+            }
+
+            var tool = await _toolRepository.GetToolByIdAsync(id);
+
+            if (tool == null)
+            {
+                _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada.");
+                return false;
+            }
+
+            tool.Update(request.Name, request.Description);
+
+            tool.Tags.Clear();
+
+            var tags = request.Tags?
+                .Where(tag => !string.IsNullOrWhiteSpace(tag))
+                .Distinct() ?? Enumerable.Empty<string>();
+
+            foreach (var tagName in tags)
+            {
+                var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
+                tool.Tags.Add(existingTag ?? new Tag(tagName));
+            }
+            await _toolRepository.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> DeleteToolAsync(Guid id)
+        {
+            var tool = await _toolRepository.GetToolByIdAsync(id);
+            if (tool == null)
+            {
+                _notificationContext.AddErrors("tool.NotFound", "Ferramenta não encontrada.1");
+                return false;
+            }
+
+            _toolRepository.RemoveTool(tool);
+            await _toolRepository.SaveChangesAsync();
+
+            return true;
+        }
+
+        private static ToolResponse MapToToolResponse(Tool tool)
+        {
+            return new ToolResponse
+            {
+                Id = tool.Id,
+                Name = tool.Name,
+                Description = tool.Description,
+                Tags = tool.Tags.Select(tag => tag.Name).ToList()
+            };
+        }
+    }
+}

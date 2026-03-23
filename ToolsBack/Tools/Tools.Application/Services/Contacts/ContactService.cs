@@ -49,14 +49,35 @@ namespace Tools.Application.Services.Contacts
 
 
             var message = $@"
-                        <h2>Novo Contato</h2>
-                        <p><strong>Categoria: </strong>{request.Category}</p>
-                        <p><strong>Assunto: </strong>{request.Subject}</p>
-                        <p><strong>Descrição: </strong> {request.Body}</p>
-                        <p><strong>Email: </strong> {request.UserEmail}</p>";
+                      <div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
+                      <div style='max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);'>
+    
+                        <h2 style='color: #4CAF50; text-align: center;'>📩 Novo Contato</h2>
 
-            await _emailService.SendAsync(
-                "seuemail@gmail.com",
+                        <hr style='margin: 20px 0;' />
+
+                        <p><strong>📂 Categoria:</strong> {request.Category}</p>
+                        <p><strong>📝 Assunto:</strong> {request.Subject}</p>
+                        <p><strong>📧 Email:</strong> {request.UserEmail}</p>
+
+                        <div style='margin-top: 20px;'>
+                          <p><strong>💬 Mensagem:</strong></p>
+                          <div style='background: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 4px solid #4CAF50;'>
+                            {request.Body}
+                          </div>
+                        </div>
+
+                        <hr style='margin: 20px 0;' />
+
+                        <p style='font-size: 12px; color: #888; text-align: center;'>
+                          Este email foi enviado pelo formulário de contato do sistema.
+                        </p>
+
+                      </div>
+                    </div>";
+
+                await _emailService.SendAsync(
+                "killuazoldick143@gmail.com",
                 $"[{request.Category}] {request.Subject}",
                 message);
 

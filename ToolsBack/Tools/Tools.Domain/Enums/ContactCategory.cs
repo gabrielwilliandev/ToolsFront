@@ -2,8 +2,8 @@
 {
     public enum ContactCategory
     {
-        Bug,
-        Sugestão,
-        Duvida
+        Bug = 1,
+        Sugestão = 2,
+        Duvida = 3
     }
 }

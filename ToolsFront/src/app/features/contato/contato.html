@@ -27,16 +27,17 @@
       <mat-form-field>
         <mat-label>Descrição</mat-label>
         <textarea matInput formControlName="mensagem"></textarea>
+        @if (contatoForm.get('mensagem')?.hasError('required') && contatoForm.get('mensagem')?.touched) {
+          <mat-error>A descrição é obrigatória.</mat-error>
+        }
       </mat-form-field>
-      @if (contatoForm.get('mensagem')?.hasError('required') && contatoForm.get('mensagem')?.touched) {
-        <mat-error>A descrição é obrigatória.</mat-error>
-      }
       <div class="inputscategoria">
         <mat-form-field>
           <mat-label>Categoria</mat-label>
           <mat-select formControlName="categoria">
-            <mat-option value="erros">Erros</mat-option>
-            <mat-option value="sugestoes">Sugestões</mat-option>
+            <mat-option [value]="1">Bug</mat-option>
+            <mat-option [value]="2">Sugestões</mat-option>
+            <mat-option [value]="3">Dúvida</mat-option>
           </mat-select>
           @if(contatoForm.get('categoria')?.hasError('required') && contatoForm.get('categoria')?.touched) {
             <mat-error>Por favor, selecione uma categoria.</mat-error>
