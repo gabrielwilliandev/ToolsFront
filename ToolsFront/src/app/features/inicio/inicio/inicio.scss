@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box;
+}
+.main{
+    margin-top: 20px;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fcedf5;
+    flex-direction: column;
+    gap: 30px;
+}
+.telinha {
+    background-color: rgb(145, 88, 179);
+    width: 60%;
+    max-width: 900px;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 40px;
+    padding: 30px;
+    box-shadow: 3px 5px 15px rgba(95, 0, 114, 0.6);
+    box-sizing: border-box;
+}
+.introducao mat-icon{
+    font-size: 33px;
+    width: 33px;
+    height: 33px;
+}
+.introducao{
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: center;
+}
+.texto{
+    font-size: 30px;
+    font-family: 'Bungee', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+}
+.contexto{
+    background-color: #a67bbd;
+    display: flex;
+    height: 100px;
+    color: white;
+    border-radius: 30px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.apresentacao{
+    text-align: center;
+}
+.pergunta{
+    color: white;
+    font-weight: bold;
+}
+.inputlista{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inputlista input{
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #e7d3ed;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+}
+
+.botao mat-icon{
+    color: white;
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+}
+.botao{
+    width: 100%;
+    display: flex;
+    
+    
+}
+.criarlista{
+    width: 100%;
+    background-color: #49de80;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    transition: 
+        transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.criarlista:disabled {
+    background-color: #749e82;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.criarlista:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+.criarlista:hover{
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+.cards{
+    display: flex;
+    gap: 20px;
+    width: 60%;
+    max-width: 900px;
+       box-sizing: border-box;
+}
+.card{
+    flex: 1;
+    min-width: 0;
+    background-color: #ffffff;
+    width: 33%;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.445);
+
+}
+.card h3{
+    color: #9b6bb5;
+    padding-bottom: 5px;
+}
+.card mat-icon{
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #a67bbd;
+    margin-bottom: 10px;
+}
+.card p {
+    color: #6b6b6b;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 5px;
+    letter-spacing: 0.3px;
+}

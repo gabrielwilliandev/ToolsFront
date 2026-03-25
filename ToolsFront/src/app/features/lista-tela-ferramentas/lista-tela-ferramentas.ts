@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Tag } from '../../components/tag/tag';
 import { MatIconModule } from '@angular/material/icon';
 import { Card } from '../../components/card/card';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-lista-tela-ferramentas',
@@ -20,10 +21,10 @@ export class ListaTelaFerramentas implements OnInit {
   public tagDigitada: string = '';
   public nome: string = '';
   public descricao: string = '';
-
+  nomeLista: string = '';
   public listaTags: string[] = [];
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.service.carregarCache();
@@ -37,6 +38,10 @@ export class ListaTelaFerramentas implements OnInit {
         this.toastrService.error('Erro ao carregar ferramentas!')
       }
     })
+
+    this.route.queryParams.subscribe(params =>{
+      this.nomeLista = params['nome'] || 'Minha Lista';
+    });
   }
 
   adicionarFerramenta() {

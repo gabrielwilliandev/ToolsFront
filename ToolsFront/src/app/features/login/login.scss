@@ -1,0 +1,180 @@
+$color1: #ffa7fe;
+$color2: #72a0ff;
+$color3: #74ccfe;
+$holo-pink: #ff6ec7;
+$holo-blue: #6ec7ff;
+$header-bg: linear-gradient(90deg, #9157b3, #b46ddd);
+.glass-title {
+  position: relative;
+  display: inline-block;
+  font-family: 'Bungee', sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+  transform: skewX(-10deg);
+
+  background: linear-gradient(120deg, #ffa7fe, #ffffff, #e372ff, #ee74fe, #ffffff, #ffa7fe);
+
+  background-size: 400% 400%;
+  animation: holoMove 6s ease-in-out infinite;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.25));
+}
+.glass-title::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  background: linear-gradient(
+    75deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.9) 45%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 70%
+  );
+
+  background-size: 200% 200%;
+  animation: shineMove 4s linear infinite;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  pointer-events: none;
+}
+mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+
+      background: linear-gradient(120deg, #ffa7fe, #ffffff, #e372ff, #ee74fe, #ffffff, #ffa7fe);
+
+      background-size: 400% 400%;
+      animation: holoMove 6s ease-in-out infinite;
+
+      background-clip: text;
+      -webkit-background-clip: text;
+
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+    }
+@keyframes holoMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shineMove {
+  0% {
+    background-position: -200% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+
+.main{
+    width: 100%;
+    height: 100vh;
+    background-color: #9b6bb5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    gap: 20px;
+}
+.cabecalho{
+
+}
+.cabecalho h3{
+    color: white;
+}
+.login{
+    background-color: #fcedf5;
+    width: 30%;
+    height: 50%;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+}
+.login h1{
+    color: #9b6bb5;
+    font-family: 'Bungee', sans-serif;
+}
+
+.login input{
+    height: 50px;
+    width: 100%;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+}
+
+.loginbutton{
+    outline: none;
+    border: none;
+    background-color: #49de80;
+    font-size: 20px;
+    height: 15%;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border-radius: 30px;
+    transition: 
+        transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.loginbutton:disabled {
+    background-color: #749e82;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.loginbutton:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+.loginbutton:hover{
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+.login h3{
+    color: #9b6bb5;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 5px;
+    letter-spacing: 0.3px;
+    font-weight: 300;
+}
+.login a{
+    text-decoration: none;
+    color: #9b6bb5;;
+    border-bottom: 1px solid #9b6bb5;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.login a:hover {
+  opacity: 0.7;
+}
+

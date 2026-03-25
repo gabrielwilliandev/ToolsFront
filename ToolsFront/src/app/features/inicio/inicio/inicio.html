@@ -1,0 +1,41 @@
+<div class="main">
+  <div class="telinha">
+    <div class="introducao">
+      <mat-icon>app_registration</mat-icon>
+      <span class="texto">BEM-VINDO AO TOOLS</span>
+    </div>
+
+    <div class="contexto">
+      <span class="apresentacao"
+        >Crie e organize suas listas de ferramentas de forma simples e eficiente.</span
+      >
+    </div>
+
+    <span class="pergunta">Que tipo de lista você quer criar?</span>
+    <div class="inputlista">
+      <input type="text" placeholder="Ex: Ferramentas de Desenvolvimento, Equipamentos, etc." [(ngModel)]="nomeLista"/>
+    </div>
+
+    <div class="botao">
+        <button class="criarlista" (click)="criarLista()" [disabled]="!nomeLista.trim()"><mat-icon>add</mat-icon>Criar Lista</button>
+    </div>
+  </div>
+  <div class="cards">
+      <div class="card">
+            <mat-icon>description</mat-icon>
+            <h3>Crie Listas</h3>
+            <p>Adicione suas ferramentas de forma organizada</p>
+        </div>
+        <div class="card">
+            <mat-icon>sell</mat-icon>
+            <h3>Categorize</h3>
+            <p>Organize com tags personalizadas</p>
+        </div>
+      
+        <div class="card">
+            <mat-icon>search</mat-icon>
+            <h3>Busque</h3>
+            <p>Encotre rapidamente o que precisa</p>
+        </div>
+  </div>
+</div>
