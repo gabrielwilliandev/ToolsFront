@@ -1,0 +1,18 @@
+<div class="main">
+    <div class="cabecalho">
+        <mat-icon>plumbing</mat-icon>
+        <h1 class="glass-title" data-text="TOOLS">TOOLS</h1>
+        <h3>Crie sua conta para começar</h3>
+    </div>
+    
+        <form [formGroup]="form" (ngSubmit)="register()" class="register">
+            <h1>REGISTRAR</h1>
+            <input type="text" placeholder="Nome completo*" formControlName="name">
+            <input type="text" placeholder="Email*" formControlName="email">
+            <input type="password" placeholder="Senha* (mínimo 6 caracteres)" formControlName="password">
+            <input type="password" placeholder="Confirmar senha*" formControlName="passwordConfirm">
+            <app-button type="salvar" label="Criar Conta"></app-button>
+            <h3>Já tem uma conta? <a routerLink="/">Entre aqui</a></h3>
+        </form>
+    
+</div>

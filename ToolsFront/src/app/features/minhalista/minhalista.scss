@@ -1,0 +1,82 @@
+.main{
+    width: 100%;
+    height: 100vh;
+    background-color: #9b6bb5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    gap: 20px;
+}
+.minhalista{
+    background-color: #fcedf5;
+    width: 100%;
+    max-width: 1100px;
+    min-height: 400px;
+    height: auto;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    box-shadow: 0px 8px 20px 0px rgba(225, 0, 255, 0.336);
+
+}
+.titulo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+::ng-deep .titulo app-button button{
+    font-size: 18px
+}
+.titulo h1{
+    color: #9b6bb5;
+    font-family: 'Bungee', sans-serif;
+}
+.titulo-esquerda{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.titulo mat-icon{
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+    color: #9b6bb5;
+}
+.conteudo{
+    display: flex;
+    gap: 20px;
+}
+.vazio mat-icon{
+    color: #e0c8e3;
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+}
+::ng-deep .btn-roxo button {
+    background-color: #9b6bb5 !important;
+    color: white !important;
+}
+.vazio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 7px;
+    color: #e0c8e3;
+    width: 100%;
+    min-height: 300px;
+    gap: 10px;
+}
+.lista-esquerda{
+    flex: 1;
+}
+
+.detalhe-direita{
+    flex: 1.5;
+}

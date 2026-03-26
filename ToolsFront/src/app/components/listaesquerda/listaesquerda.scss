@@ -1,0 +1,77 @@
+.lista{
+    background-color: #ffffff;
+    width: 100%;
+    min-width: 600px;
+    max-width: 900px;
+    min-height: 180px;
+    height: auto;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.336);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.titulo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.delete{
+    color: red;
+}
+.icones{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.icones mat-icon {
+    cursor: pointer;
+    border-radius: 100%;
+    transition: 0.2s ease;
+}
+.visualizacao:hover {
+    background-color: rgba(155, 107, 181, 0.15);
+}
+
+.delete:hover {
+    background-color: rgba(229, 57, 53, 0.15);
+}
+.visualizacao{
+    color:#9b6bb5
+}
+.titulo h3{
+    font-size: 20px;
+    color: #9b6bb5;
+}
+.data{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: #9b6bb5;
+    font-size: 15px;
+    font-weight: 100;
+    opacity: 0.7;
+    gap: 5px;
+}
+.data mat-icon{
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+.quantidade{
+    color: #9b6bb5;
+    display: flex;
+    justify-content: start;
+    font-size: 15px;
+    font-weight: 200;
+    opacity: 0.8;
+}
+

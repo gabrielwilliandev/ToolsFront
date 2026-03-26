@@ -9,15 +9,18 @@ namespace Tools.Domain.Entities
         public string Description { get; private set; }
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
+        public Guid ListaId { get; private set; }
+
         protected Tool() { }
 
-        public Tool(string name, string description)
+        public Tool(string name, string description, Guid listaId)
         {
             ValidateTool(name, description);
 
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
+            ListaId = listaId;
         }
 
         public void Update(string name, string description)

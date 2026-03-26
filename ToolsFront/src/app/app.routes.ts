@@ -5,11 +5,17 @@ import { Sobre } from './features/sobre/sobre';
 import { Inicio } from './features/inicio/inicio/inicio';
 import { Login } from './features/login/login';
 import { Layout } from '../layout/layout';
+import { Register } from './features/register/register';
+import { Minhalista } from './features/minhalista/minhalista';
 
 export const routes: Routes = [
     {
         path: '',
         component: Login
+    },
+    {
+      path: 'register',
+      component: Register
     },
     {
     path: '',
@@ -18,6 +24,10 @@ export const routes: Routes = [
       {
         path: 'inicio',
         component: Inicio
+      },
+      {
+        path: 'minhalista',
+        component: Minhalista
       },
       {
         path: 'listaferramentas',
