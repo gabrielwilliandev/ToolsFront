@@ -8,5 +8,11 @@ namespace Tools.Domain.Entities
 {
     internal class List
     {
+        public int Id { get; set; }
+
+        public List()
+        {
+
+        }
     }
 }

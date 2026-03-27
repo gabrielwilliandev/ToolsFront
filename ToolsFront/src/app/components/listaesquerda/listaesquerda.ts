@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listaesquerda',
@@ -8,5 +9,16 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './listaesquerda.scss',
 })
 export class Listaesquerda {
+@Input() id!: number;
+@Input() nome!: string;
+@Input() data!: string;
+@Input() ferramentas!: number;
 
+  router = inject(Router);
+
+  editarLista(){
+  this.router.navigate(['/lista', this.id], {
+    queryParams: {nome: this.nome}
+  });
+}
 }

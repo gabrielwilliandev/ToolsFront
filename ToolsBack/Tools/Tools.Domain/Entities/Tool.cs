@@ -35,7 +35,7 @@ namespace Tools.Domain.Entities
             Description = description?.Trim() ?? string.Empty;
         }
 
-        private static void ValidateTool(string name, string description)
+        private void ValidateTool(string name, string description)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException("tool.name.required", "Nome é obrigatório.");

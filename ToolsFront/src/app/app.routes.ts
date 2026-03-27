@@ -34,6 +34,10 @@ export const routes: Routes = [
         component: ListaTelaFerramentas
       },
       {
+        path: 'listaferramentas/:id',
+        component: ListaTelaFerramentas
+      },
+      {
         path: 'contato',
         component: Contato
       },

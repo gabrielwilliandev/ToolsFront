@@ -1,6 +1,6 @@
 <div class="main">
   <div class="telinha">
-    <h1 class="titulo">Lista de {{nomeLista}}</h1>
+    <h1 class="titulo">{{modo === 'editar' ? 'EDITAR' : 'Lista de ' + nomeLista }}</h1>
     <div class="organizacao">
       <input
         type="text"
@@ -26,7 +26,7 @@
         (keyup)="processarTags($event)"
       />
 
-      <button class="cadastrosalvar" (click)="adicionarFerramenta()">Salvar</button>
+      <button class="cadastrosalvar" (click)="adicionarFerramenta()">{{ modo === 'editar' ? 'Salvar Alterações' : 'Salvar' }}</button>
     </div>
 
     @if (listaTags.length > 0) {
@@ -41,6 +41,6 @@
         }
       </div>
     }
-    <app-card></app-card>
+    <app-card [modo]="modo === 'editar' ? 'editar' : 'visualizar'"></app-card>
   </div>
 </div>

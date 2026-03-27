@@ -11,9 +11,12 @@
                 <app-tag [tag]="tag" (editar)="atualizarTag(item, tagIndex, $event)"></app-tag>
               }
             </div>
-            <button class="remover-item" (click)="deletarItem(item.id)">
+            @if(modo === 'editar')
+            {
+              <button class="remover-item" (click)="deletarItem(item.id)">
               <mat-icon>close</mat-icon>
             </button>
+          }
           </div>
         </div>
       }

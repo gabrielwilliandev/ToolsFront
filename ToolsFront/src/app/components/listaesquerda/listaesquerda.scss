@@ -1,7 +1,7 @@
 .lista{
     background-color: #ffffff;
     width: 100%;
-    min-width: 600px;
+    min-width: 500px;
     max-width: 900px;
     min-height: 180px;
     height: auto;
@@ -34,8 +34,8 @@
 }
 .icones mat-icon {
     cursor: pointer;
-    border-radius: 100%;
-    transition: 0.2s ease;
+    border-radius: 8px;
+    transition: 0.4s ease;
 }
 .visualizacao:hover {
     background-color: rgba(155, 107, 181, 0.15);
@@ -46,6 +46,12 @@
 }
 .visualizacao{
     color:#9b6bb5
+}
+.edit{
+    color:#9b6bb5
+}
+.edit:hover{
+    background-color: rgba(229, 57, 53, 0.15);
 }
 .titulo h3{
     font-size: 20px;

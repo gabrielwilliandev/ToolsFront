@@ -5,14 +5,9 @@ using Tools.Infrastructure.Context;
 
 namespace Tools.Infrastructure.Repositories
 {
-    public class ToolRepository : IToolRepository
+    public class ToolRepository(AppDbContext dbContext) : IToolRepository
     {
-        private readonly AppDbContext _context;
-
-        public ToolRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+        private readonly AppDbContext _context = dbContext;
 
         public async Task AddToolAsync(Tool tool)
         {

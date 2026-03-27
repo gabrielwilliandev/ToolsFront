@@ -1,28 +1,42 @@
 <div class="main">
-    <div class="minhalista">
-        <div class="titulo">
-            <div class="titulo-esquerda">
-                <mat-icon>format_list_bulleted</mat-icon>
-                <h1>MINHAS LISTAS</h1>
-            </div>
-            <app-button type="salvar" label="+ Nova Lista"></app-button>
-        </div>
-
-        
-
-        <div class="conteudo">
-            <div class="vazio">
-                <mat-icon>format_list_bulleted</mat-icon>
-                <h1>Você ainda não crio nenhuma lista</h1>
-                <app-button class="btn-roxo" type="salvar" label="Criar primeira lista"></app-button>
-            </div>
-            <div class="lista-esquerda">
-
-            </div>
-
-            <div class="detalhes-direita">
-
-            </div>
-        </div>
+  <div class="minhalista">
+    <div class="titulo">
+      <div class="titulo-esquerda">
+        <mat-icon>format_list_bulleted</mat-icon>
+        <h1>MINHAS LISTAS</h1>
+      </div>
+      <app-button type="salvar" label="+ Nova Lista"></app-button>
     </div>
+
+    <div class="conteudo">
+      @if (listas.length == 0) {
+        <div class="vazio">
+          <mat-icon>format_list_bulleted</mat-icon>
+          <h1>Você ainda não crio nenhuma lista</h1>
+          <app-button class="btn-roxo" type="salvar" label="Criar primeira lista"></app-button>
+        </div>
+      } @else {
+        <div class="lista-esquerda">
+          @for (lista of listas; track lista.id) {
+            <app-listaesquerda
+              [nome]="lista.nome"
+              [data]="lista.data"
+              [ferramentas]="lista.ferramentas"
+              (click)="selecionarLista(lista)"
+            >
+            </app-listaesquerda>
+          }
+        </div>
+
+        <div class="detalhe-direita">
+            @if(!listaSelecionada){
+            <mat-icon class="visualizacao">visibility</mat-icon>
+            <h3>Selecione uma para ve os detalhes</h3>
+        } @else{
+            <app-card [modo]="'visualizar'"></app-card>
+        }
+        </div>
+    }
+    </div>
+  </div>
 </div>

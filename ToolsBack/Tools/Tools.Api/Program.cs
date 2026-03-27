@@ -3,17 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Tools.Api.Configurations;
 using Tools.Api.Filters;
 using Tools.Api.Middleware;
-using Tools.Application.Interfaces;
-using Tools.Application.Notifications;
-using Tools.Application.Services;
-using Tools.Application.Services.Contacts;
-using Tools.Application.Services.Email;
 using Tools.Application.Validators;
 using Tools.Infrastructure.Context;
 using Tools.Infrastructure.Context.Email;
-using Tools.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,18 +40,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=tools.db");
 });
 
-builder.Services.AddScoped<IToolRepository, ToolRepository>();
-builder.Services.AddScoped<ITagRepository, TagRepository>();
-builder.Services.AddScoped<IToolService, ToolService>();
-builder.Services.AddScoped<NotificationContext>();
-builder.Services.AddScoped<NotificationFilter>();
 
-
-builder.Services.AddScoped<IContactService, ContactService>();
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.Configuration();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

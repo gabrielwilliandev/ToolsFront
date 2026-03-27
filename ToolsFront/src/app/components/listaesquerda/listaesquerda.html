@@ -1,16 +1,17 @@
 <div class="lista">
     <div class="item">
         <div class="titulo">
-            <h3>Lista x</h3>
+            <h3>{{nome}}</h3>
             <div class="icones">
                 <mat-icon class="visualizacao">visibility</mat-icon>
+                <mat-icon class="edit" (click)="editarLista()">edit</mat-icon>
                 <mat-icon class="delete">delete</mat-icon>
             </div>
         </div>
         <div class="data">
             <mat-icon>calendar_today</mat-icon>
-            <h4>xx de x de xxxx</h4>
+            <h4>{{data}}</h4>
         </div>
-        <h4 class="quantidade">x ferramentas</h4>
+        <h4 class="quantidade">{{ferramentas}} ferramentas</h4>
     </div>
 </div>

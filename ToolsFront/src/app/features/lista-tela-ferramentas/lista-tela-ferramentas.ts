@@ -17,6 +17,8 @@ export class ListaTelaFerramentas implements OnInit {
   service = inject(ListaService);
   toastrService = inject(ToastrService);
 
+  modo: 'criar' | 'editar' = 'criar';
+
   public botaoVisibilidade: boolean = false;
   public tagDigitada: string = '';
   public nome: string = '';
@@ -28,6 +30,11 @@ export class ListaTelaFerramentas implements OnInit {
 
   ngOnInit(): void {
     this.service.carregarCache();
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if(id){
+      this.modo = 'editar';
+    }
 
     this.service.listar().subscribe({
       next: (data) => {

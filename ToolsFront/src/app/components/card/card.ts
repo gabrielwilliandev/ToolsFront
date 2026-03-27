@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ListaService } from '../../listaService';
 import { Tag } from '../tag/tag';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,8 @@ export class Card {
   service = inject(ListaService);
   
   ferramentas$ = this.service.ferramentas$;
+
+  @Input() modo: 'visualizar' | 'editar' = 'editar';
 
   ngOnInit(){
     this.service.listar().subscribe();

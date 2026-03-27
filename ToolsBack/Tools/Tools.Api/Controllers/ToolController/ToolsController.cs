@@ -11,14 +11,9 @@ namespace Tools.Api.Controllers.ToolController
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class ToolsController : ControllerBase
+    public class ToolsController(IToolService service) : ControllerBase
     {
-        private readonly IToolService _service;
-
-        public ToolsController(IToolService service)
-        {
-            _service = service;
-        }
+        private readonly IToolService _service = service;
 
         /// <summary>
         /// Retorna uma lista de todas as ferramentas cadastradas.

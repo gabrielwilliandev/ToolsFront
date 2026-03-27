@@ -12,12 +12,16 @@ import { MatIconModule } from  '@angular/material/icon' ;
 export class Tag {
   @Input() tag!: string;
 
+  @Input() editavel: boolean = true;
+
   @Output() editar = new EventEmitter<string>();
 
   editando = false;
   valorEditado = '';
 
   iniciarEdicao() {
+    if(!this.editavel) return;
+    
     this.editando = true;
     this.valorEditado = this.tag;
   }

@@ -6,13 +6,10 @@ namespace Tools.Api.Controllers.EmailController
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class EmailController : ControllerBase
+    public class EmailController(IContactService service) : ControllerBase
     {
-        private readonly IContactService _contactService;
-        public EmailController(IContactService contactService)
-        {
-            _contactService = contactService;
-        }
+        private readonly IContactService _contactService = service;
+
         [HttpPost]
         public async Task<IActionResult> Enviar([FromBody] ContactRequest request)
         {
