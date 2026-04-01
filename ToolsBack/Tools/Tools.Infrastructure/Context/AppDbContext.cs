@@ -13,9 +13,9 @@ namespace Tools.Infrastructure.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Tool>()
-                .HasMany(t => t.Tags)
-                .WithMany(t => t.Tools)
-                .UsingEntity(j => j.ToTable("ToolTags"));
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId);
 
             modelBuilder.Entity<Tag>()
                 .Property(t => t.Id)
@@ -35,5 +35,6 @@ namespace Tools.Infrastructure.Context
         public DbSet<Tool> Tools { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

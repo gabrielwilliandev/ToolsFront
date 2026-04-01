@@ -29,7 +29,7 @@ namespace Tools.Infrastructure.Migrations
 
                     b.HasIndex("ToolsId");
 
-                    b.ToTable("ToolTags", (string)null);
+                    b.ToTable("TagTool");
                 });
 
             modelBuilder.Entity("Tools.Domain.Entities.Contact", b =>
@@ -95,9 +95,37 @@ namespace Tools.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Tools");
+                });
+
+            modelBuilder.Entity("Tools.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TagTool", b =>
@@ -113,6 +141,17 @@ namespace Tools.Infrastructure.Migrations
                         .HasForeignKey("ToolsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Tools.Domain.Entities.Tool", b =>
+                {
+                    b.HasOne("Tools.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

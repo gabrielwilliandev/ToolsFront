@@ -5,9 +5,9 @@ namespace Tools.Application.Interfaces
     public interface IToolRepository
     {
         Task AddToolAsync(Tool tool);
-        Task<Tool?> GetToolByIdAsync(Guid id);
-        Task<IEnumerable<Tool>> SearchAsync(string query);
-        Task<List<Tool>> GetAllAsync();
+        Task<Tool?> GetToolByIdAsync(Guid id, Guid userId);
+        Task<IEnumerable<Tool>> SearchAsync(string query, Guid userId);
+        Task<List<Tool>> GetAllAsync(Guid userId);
         void RemoveTool(Tool tool);
         Task SaveChangesAsync();
 

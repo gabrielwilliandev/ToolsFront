@@ -30,7 +30,7 @@ namespace Tools.Application.Services
             _notificationContext = notificationContext;
         }
 
-        public async Task<ToolResponse?> CreateToolAsync(CreateToolRequest request)
+        public async Task<ToolResponse?> CreateToolAsync(CreateToolRequest request, Guid userId)
         {
             var validation = _createValidator.Validate(request);
             if (!validation.IsValid)
@@ -42,7 +42,7 @@ namespace Tools.Application.Services
 
             try
             {
-                var tool = new Tool(request.Name, request.Description);
+                var tool = new Tool(request.Name, request.Description, request.UserId);
                 var tags = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
 
                 foreach (var tagName in tags)
@@ -66,16 +66,16 @@ namespace Tools.Application.Services
             
         
 
-        public async Task<List<ToolResponse>> GetAllToolsAsync()
+        public async Task<List<ToolResponse>> GetAllToolsAsync(Guid userId)
         {
-            var tools = await _toolRepository.GetAllAsync();
+            var tools = await _toolRepository.GetAllAsync(userId);
             return tools.Select(MapToToolResponse).ToList();
             
         }
 
-        public async Task<ToolResponse?> GetToolByIdAsync(Guid id)
+        public async Task<ToolResponse?> GetToolByIdAsync(Guid id, Guid userId)
         {
-            var tool = await _toolRepository.GetToolByIdAsync(id);
+            var tool = await _toolRepository.GetToolByIdAsync(id, userId);
 
             if (tool == null)
             {
@@ -86,7 +86,7 @@ namespace Tools.Application.Services
             return MapToToolResponse(tool);
         }
 
-        public async Task<IEnumerable<ToolResponse>> SearchToolsAsync(string query)
+        public async Task<IEnumerable<ToolResponse>> SearchToolsAsync(string query, Guid userId)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -94,11 +94,11 @@ namespace Tools.Application.Services
                 return Enumerable.Empty<ToolResponse>();
             }
 
-            var tools = await _toolRepository.SearchAsync(query);
+            var tools = await _toolRepository.SearchAsync(query, userId);
             return tools.Select(MapToToolResponse);
         }
 
-        public async Task<bool> UpdateToolAsync(Guid id, UpdateToolRequest request)
+        public async Task<bool> UpdateToolAsync(Guid id, UpdateToolRequest request, Guid userId)
         {
             var validation = _updateValidator.Validate(request);
             if (!validation.IsValid)
@@ -159,9 +159,9 @@ namespace Tools.Application.Services
                 return false;
             }
         }
-        public async Task<bool> DeleteToolAsync(Guid id)
+        public async Task<bool> DeleteToolAsync(Guid id, Guid userId)
         {
-            var tool = await _toolRepository.GetToolByIdAsync(id);
+            var tool = await _toolRepository.GetToolByIdAsync(id, userId);
             if (tool == null)
             {
                 _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada.1");
