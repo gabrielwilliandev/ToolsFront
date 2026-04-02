@@ -5,7 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ContactService } from '../../../contactService';
+import { ContactService } from '../../service/contactService';
 
 @Component({
   selector: 'app-contato',

@@ -4,7 +4,9 @@ import { Button } from '../../components/button/button';
 import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../service/auth-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -14,8 +16,14 @@ import { RouterModule } from '@angular/router';
 })
 export class Register {
   form: FormGroup;
+  errorMsg = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+  ) {
     this.form = this.fb.group(
       {
         name: ['', [Validators.required]],
@@ -46,6 +54,16 @@ export class Register {
       return;
     }
 
-    console.log(this.form.value);
+    const { name, email, password, passwordConfirm } = this.form.value;
+    this.authService.register(name, email, password, passwordConfirm).subscribe({
+      next: () => {
+        this.router.navigate(['']);
+      },
+      error: (err) => {
+        const mensagem =
+          err.error?.message || 'Ocorreu um erro durante o registro. Por favor, tente novamente.';
+        this.snackBar.open(mensagem, 'Fechar', { duration: 3000 });
+      },
+    });
   }
 }

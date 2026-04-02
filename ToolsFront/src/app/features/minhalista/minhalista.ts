@@ -1,8 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Button } from '../../components/button/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Listaesquerda } from '../../components/listaesquerda/listaesquerda';
 import { Card } from '../../components/card/card';
+import { ListaService } from '../../service/listaService';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Ferramenta } from '../../models/ferramentas';
 
 @Component({
   selector: 'app-minhalista',
@@ -11,35 +15,40 @@ import { Card } from '../../components/card/card';
   templateUrl: './minhalista.html',
   styleUrl: './minhalista.scss',
 })
-export class Minhalista {
+export class Minhalista implements OnInit {
+  listas: Ferramenta[] = [];
+  listaSelecionada: Ferramenta | null = null;
 
+  constructor(private listaService: ListaService, private router: Router, private snackBar: MatSnackBar) {}
 
-  listaSelecionada: any = null;
-
-  listas = [
-  {
-    id: 1,
-    nome: 'Estudos Angular',
-    data: '27 de março de 2026',
-    ferramentas: 3
-  },
-  {
-    id: 2,
-    nome: 'Projeto Dashboard',
-    data: '26 de março de 2026',
-    ferramentas: 5
-  },
-  {
-    id: 3,
-    nome: 'Back-end C#',
-    data: '25 de março de 2026',
-    ferramentas: 2
+  ngOnInit(): void {
+    this.listaService.listar().subscribe({
+      next: (data) => {
+        this.listas = data;
+      },
+      error: (err) => {
+        const mensagem = err.error?.message || 'Ocorreu um erro ao carregar as listas. Por favor, tente novamente.';
+        
+        this.snackBar.open(
+          mensagem,
+          'Fechar',
+          { duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error']
+           }
+        );
+      }
+    });
   }
-];
 
-selecionarLista(lista: any){
-  this.listaSelecionada = lista;
-}
+  selecionarLista(lista: Ferramenta) {
+    this.listaSelecionada = lista;
+  }
 
-
+  editarLista(lista: Ferramenta) {
+    this.router.navigate(['/listaferramentas', lista.id], {
+      queryParams: { nome: lista.name }
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ListaService } from '../../listaService';
+import { ListaService } from '../../service/listaService';
 import { FormsModule } from '@angular/forms';
 import { Tag } from '../../components/tag/tag';
 import { MatIconModule } from '@angular/material/icon';

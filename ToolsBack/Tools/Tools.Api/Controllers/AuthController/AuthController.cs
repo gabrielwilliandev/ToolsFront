@@ -30,6 +30,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
         var token = await _authService.LoginAsync(dto);
+
         return Ok(new { Token = token });
     }
 

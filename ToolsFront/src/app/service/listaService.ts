@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Ferramenta } from './models/ferramentas';
+import { Ferramenta } from '../models/ferramentas';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { CreateFerramentaRequest } from './models/create-ferramenta-request';
-import { UpdateFerramentaRequest } from './models/update-ferramenta-request';
-import { ApiResponse } from './models/api-response';
+import { CreateFerramentaRequest } from '../models/create-ferramenta-request';
+import { UpdateFerramentaRequest } from '../models/update-ferramenta-request';
+import { ApiResponse } from '../models/api-response';
 
 @Injectable({ providedIn: 'root' })
 export class ListaService {
@@ -21,7 +21,11 @@ export class ListaService {
   }
 
   listar(): Observable<Ferramenta[]> {
-    return this.http.get<ApiResponse<Ferramenta[]>>(this.apiUrl).pipe(
+    return this.http.get<ApiResponse<Ferramenta[]>>(this.apiUrl, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+      }
+    }).pipe(
       map(res => res.data),
       tap(data => {
         this._ferramentas$.next(data);

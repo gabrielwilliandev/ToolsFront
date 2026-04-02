@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { ListaService } from '../../listaService';
+import { ListaService } from '../../service/listaService';
 import { Tag } from '../tag/tag';
 import { MatIconModule } from '@angular/material/icon';
 import { Ferramenta } from '../../models/ferramentas';

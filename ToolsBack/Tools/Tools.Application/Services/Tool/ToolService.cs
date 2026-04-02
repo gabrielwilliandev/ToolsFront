@@ -42,7 +42,7 @@ namespace Tools.Application.Services
 
             try
             {
-                var tool = new Tool(request.Name, request.Description, request.UserId);
+                var tool = new Tool(request.Name, request.Description, userId);
                 var tags = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
 
                 foreach (var tagName in tags)

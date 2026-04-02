@@ -12,7 +12,7 @@ export class Listaesquerda {
 @Input() id!: number;
 @Input() nome!: string;
 @Input() data!: string;
-@Input() ferramentas!: number;
+@Input() ferramentas!: string[];
 
   router = inject(Router);
 

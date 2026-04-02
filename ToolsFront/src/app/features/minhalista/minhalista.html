@@ -19,9 +19,9 @@
         <div class="lista-esquerda">
           @for (lista of listas; track lista.id) {
             <app-listaesquerda
-              [nome]="lista.nome"
-              [data]="lista.data"
-              [ferramentas]="lista.ferramentas"
+              [nome]="lista.name"
+              [data]="lista.description"
+              [ferramentas]="lista.tags"
               (click)="selecionarLista(lista)"
             >
             </app-listaesquerda>

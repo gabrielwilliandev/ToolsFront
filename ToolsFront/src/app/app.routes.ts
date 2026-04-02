@@ -7,19 +7,25 @@ import { Login } from './features/login/login';
 import { Layout } from '../layout/layout';
 import { Register } from './features/register/register';
 import { Minhalista } from './features/minhalista/minhalista';
+import { authGuard } from './guards/auth-guard';
+import { loginGuard } from './guards/login-guard';
+
 
 export const routes: Routes = [
     {
         path: '',
-        component: Login
+        component: Login,
+        canActivate: [loginGuard]
     },
     {
       path: 'register',
-      component: Register
+      component: Register,
+      canActivate: [loginGuard]
     },
     {
     path: '',
     component: Layout,
+    canActivate: [authGuard],
     children: [
       {
         path: 'inicio',
