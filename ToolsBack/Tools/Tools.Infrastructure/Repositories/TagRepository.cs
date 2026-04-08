@@ -2,6 +2,7 @@
 using Tools.Application.Interfaces;
 using Tools.Domain.Entities;
 using Tools.Infrastructure.Context;
+using static Azure.Core.HttpHeader;
 
 namespace Tools.Infrastructure.Repositories
 {
@@ -19,10 +20,17 @@ namespace Tools.Infrastructure.Repositories
             await _context.Tags.AddAsync(tag);
         }
 
-        public async Task<Tag?> GetTagByNameAsync(string name)
+        public async Task<List<Tag>?> GetTagByNameAsync(List<string> name)
         {
-            name = name?.Trim().ToLower();
-            return await _context.Tags.FirstOrDefaultAsync(t => t.Name == name);
+            var normalizedNames = name
+        .Where(n => !string.IsNullOrWhiteSpace(n))
+        .Select(n => n.Trim().ToLower())
+        .Distinct()
+        .ToList();
+
+            return await _context.Tags
+                .Where(t => normalizedNames.Contains(t.Name))
+                .ToListAsync();
         }
     }
 }

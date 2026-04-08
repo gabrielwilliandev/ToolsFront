@@ -49,11 +49,12 @@ export class ListaService {
   atualizar(id: string, request: UpdateFerramentaRequest) {
     return this.http.put<ApiResponse<Ferramenta> | void>(`${this.apiUrl}/${id}`, request).pipe(
       tap(() => {
-        // opcional: recarrega do backend para garantir estado consistente
-        this.listar().subscribe(); // ou melhor: atualizar localmente
+        this.listar().subscribe(); 
       })
     );
   }
+
+  
 
   removerItem(id: string) {
     return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`).pipe(
@@ -75,6 +76,10 @@ export class ListaService {
         this._ferramentas$.next([]);
       }
     }
+  }
+
+  salvarLista(){
+    
   }
 
   private salvarNoStorage(data: Ferramenta[]) {

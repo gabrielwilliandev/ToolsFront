@@ -74,8 +74,9 @@ namespace Tools.Api.Controllers.ToolController
         public async Task<ActionResult> Create([FromBody] CreateToolRequest request)
         {
             var userId = GetUserId();
-            Console.WriteLine(userId);
+
             var tool = await _service.CreateToolAsync(request, userId);
+
             if (tool == null)
                 return BadRequest();
 

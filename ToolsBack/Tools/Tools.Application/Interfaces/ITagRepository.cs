@@ -4,7 +4,7 @@ namespace Tools.Application.Interfaces
 {
     public interface ITagRepository
     {
-        Task<Tag?> GetTagByNameAsync(string name);
+        Task<List<Tag>?> GetTagByNameAsync(List<string> name);
         Task AddAsync(Tag tag);
     }
 }

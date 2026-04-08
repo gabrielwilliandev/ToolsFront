@@ -16,18 +16,20 @@ namespace Tools.Application.Services
         private readonly IValidator<CreateToolRequest> _createValidator;
         private readonly IValidator<UpdateToolRequest> _updateValidator;
         private readonly NotificationContext _notificationContext;
+        private readonly IListaRepository _listaRepository;
 
         public ToolService(
             IToolRepository toolRepository,
             ITagRepository tagRepository,
             IValidator<CreateToolRequest> createValidator,
-            IValidator<UpdateToolRequest> updateValidator, NotificationContext notificationContext)
+            IValidator<UpdateToolRequest> updateValidator, NotificationContext notificationContext, IListaRepository listaRepository)
         {
             _toolRepository = toolRepository;
-        _tagRepository = tagRepository;
+            _tagRepository = tagRepository;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
             _notificationContext = notificationContext;
+            _listaRepository = listaRepository;
         }
 
         public async Task<ToolResponse?> CreateToolAsync(CreateToolRequest request, Guid userId)
@@ -40,16 +42,32 @@ namespace Tools.Application.Services
                 return null;
             }
 
+            var lista = await _listaRepository.GetByIdAsync(userId, request.ListaId);
+            if (lista == null || lista.UserId != userId)
+            {
+                _notificationContext.AddErrors("lista.notFound", "Lista não encontrada ou acesso negado.");
+                return null;
+            }
+
             try
             {
-                var tool = new Tool(request.Name, request.Description, userId);
-                var tags = request.Tags?.Where(t => !string.IsNullOrWhiteSpace(t)).Distinct(StringComparer.OrdinalIgnoreCase) ?? Enumerable.Empty<string>();
+                var tool = new Tool(request.Name, request.Description, request.ListaId);
+                var tags = request.Tags?
+                                    .Where(t => !string.IsNullOrWhiteSpace(t))
+                                    .Select(t => t.Trim().ToLower())
+                                    .Distinct()
+                                    ?? Enumerable.Empty<string>();
 
-                foreach (var tagName in tags)
+                var tagNames = tags.Select(t => t.Trim().ToLower()).ToList();
+
+                var existingTags = await _tagRepository.GetTagByNameAsync(tagNames);
+
+                foreach (var name in tagNames)
                 {
-                    var normalized = tagName.Trim().ToLower();
-                    var existingTag = await _tagRepository.GetTagByNameAsync(normalized);
-                    tool.Tags.Add(existingTag ?? new Tag(normalized));
+                    var tag = existingTags.FirstOrDefault(t => t.Name == name)
+                              ?? new Tag(name);
+
+                    tool.Tags.Add(tag);
                 }
 
                 await _toolRepository.AddToolAsync(tool);
@@ -108,7 +126,7 @@ namespace Tools.Application.Services
                 return false;
             }
 
-            var tool = await _toolRepository.GetToolByIdWithTagsAsync(id);
+            var tool = await _toolRepository.GetToolByIdAsync(id, userId);
             if (tool == null)
             {
                 _notificationContext.AddErrors("tool.notFound", "Ferramenta não encontrada.");
@@ -120,30 +138,33 @@ namespace Tools.Application.Services
                 tool.Update(request.Name, request.Description);
 
                 var newTagNames = request.Tags?
-                .Where(t => !string.IsNullOrWhiteSpace(t))
-                .Select(t => t.Trim().ToLower())
-                .Distinct()
-                .ToList() ?? new List<string>();
+                                    .Where(t => !string.IsNullOrWhiteSpace(t))
+                                    .Select(t => t.Trim().ToLower())
+                                    .Distinct()
+                                    .ToList() ?? new List<string>();
 
-                var tagsToRemove = tool.Tags.Where(t => !newTagNames.Contains(t.Name.ToLower()))
-                    .ToList();
-
+                var tagsToRemove = tool.Tags.Where(t => !newTagNames.Contains(t.Name.ToLower())).ToList();
                 foreach (var tag in tagsToRemove)
                 {
                     tool.Tags.Remove(tag);
                 }
 
                 var currentTagNames = tool.Tags.Select(t => t.Name.ToLower()).ToList();
-                var tagsToAdd = newTagNames.Where(name => !currentTagNames.Contains(name));
+                var tagsToAddNames = newTagNames.Where(name => !currentTagNames.Contains(name)).ToList();
 
-                foreach (var tagName in tagsToAdd)
+                if (tagsToAddNames.Any())
                 {
-                    var existingTag = await _tagRepository.GetTagByNameAsync(tagName);
+                    var existingTags = await _tagRepository.GetTagByNameAsync(tagsToAddNames) ?? new List<Tag>();
 
-                    tool.Tags.Add(existingTag ?? new Tag(tagName));
+                    foreach (var tagName in tagsToAddNames)
+                    {
+                        var tagToAdd = existingTags.FirstOrDefault(t => t.Name == tagName)
+                                       ?? new Tag(tagName);
 
-
+                        tool.Tags.Add(tagToAdd);
+                    }
                 }
+
                 await _toolRepository.SaveChangesAsync();
                 return true;
             }
@@ -179,6 +200,8 @@ namespace Tools.Application.Services
             return new ToolResponse
             {
                 Id = tool.Id,
+                ListaId = tool.ListaId,
+                ListaNome = tool.Lista?.Name ?? string.Empty,
                 Name = tool.Name,
                 Description = tool.Description,
                 Tags = tool.Tags.Select(tag => tag.Name).ToList()

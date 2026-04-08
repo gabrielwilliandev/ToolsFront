@@ -9,16 +9,16 @@ public sealed class CreateToolResponse
     /// <summary>
     /// Nome da ferramenta (opcional).
     /// </summary>
-    public string? Name { get; init; }
+    public string Name { get; init; }
 
     /// <summary>
     /// Descrição da ferramenta (opcional).
     /// </summary>
-    public string? Description { get; init; }
+    public string Description { get; init; }
 
     /// <summary>
     /// Tags associadas (opcional).
     /// </summary>
-    public IReadOnlyList<string>? Tags { get; init; }
+    public IReadOnlyList<string> Tags { get; init; } = [];
 }
 

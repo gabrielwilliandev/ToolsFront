@@ -13,6 +13,7 @@ namespace Tools.Domain.Entities
 
         public Tag(string name)
         {
+            Id = Guid.NewGuid();
             Name = ValidateTag(name);
         }
 

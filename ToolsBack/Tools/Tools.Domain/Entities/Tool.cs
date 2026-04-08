@@ -7,21 +7,21 @@ namespace Tools.Domain.Entities
         public Guid Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        public Guid UserId { get; private set; }
-        public User User { get; private set; }
+        public Guid ListaId { get; private set; }
+        public Lista Lista { get; private set; }
 
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
         protected Tool() { }
 
-        public Tool(string name, string description, Guid userId)
+        public Tool(string name, string description, Guid listaId)
         {
             ValidateTool(name, description);
 
             Id = Guid.NewGuid();
             Name = name;
             Description = description;
-            UserId = userId;
+            ListaId = listaId;
         }
 
         public void Update(string name, string description)

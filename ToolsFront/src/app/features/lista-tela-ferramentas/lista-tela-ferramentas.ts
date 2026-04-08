@@ -6,10 +6,11 @@ import { Tag } from '../../components/tag/tag';
 import { MatIconModule } from '@angular/material/icon';
 import { Card } from '../../components/card/card';
 import { ActivatedRoute } from '@angular/router';
+import { Button } from '../../components/button/button';
 
 @Component({
   selector: 'app-lista-tela-ferramentas',
-  imports: [FormsModule, Tag, MatIconModule, Card],
+  imports: [FormsModule, Tag, MatIconModule, Card, Button],
   templateUrl: './lista-tela-ferramentas.html',
   styleUrl: './lista-tela-ferramentas.scss',
 })
@@ -29,11 +30,19 @@ export class ListaTelaFerramentas implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.service.carregarCache();
+    //this.service.carregarCache();
     const id = this.route.snapshot.paramMap.get('id');
 
     if(id){
       this.modo = 'editar';
+      this.service.listar().subscribe( data => {
+        const ferramenta = data.find(f => f.id === id);
+        if(ferramenta){
+          this.nome = ferramenta.name;
+          this.descricao = ferramenta.description;
+          this.listaTags = [...ferramenta.tags];
+        }
+      });
     }
 
     this.service.listar().subscribe({
@@ -56,6 +65,10 @@ export class ListaTelaFerramentas implements OnInit {
       this.toastrService.warning('Nome inválido!');
       return;
     }
+    if (this.modo === 'editar') {
+      this.atualizarFerramenta();
+      return;
+    }
     this.service.adicionar({
       name: this.nome,
       description: this.descricao,
@@ -64,17 +77,33 @@ export class ListaTelaFerramentas implements OnInit {
       next: () => {
         this.toastrService.success('Ferramenta adicionada!');
         this.limparInputs();
-        this.botaoVisibilidade = true;
         this.service.listar().subscribe();
       },
       error: (err) => {
         console.error(err);
         this.toastrService.error('Erro ao adicionar ferramenta!')
       }
-    })
-
-    this.botaoVisibilidade = true;
+    });
   }
+  atualizarFerramenta() {
+        const id = this.route.snapshot.paramMap.get('id');
+        if (!id) return;
+  
+        this.service.atualizar(id, {
+          name: this.nome,
+          description: this.descricao,
+          tags: [...this.listaTags],
+        }).subscribe({
+          next: () => {
+            this.toastrService.success('Ferramenta atualizada!');
+            this.limparInputs();
+            this.service.listar().subscribe();
+          },
+          error: (err) => {
+            this.toastrService.error('Erro ao atualizar ferramenta!')
+          }
+        });
+    }
 
   processarTags(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ',') {

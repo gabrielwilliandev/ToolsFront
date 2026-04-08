@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class Button {
   @Input() label: string = 'Botão';
-  @Input() type: 'button' | 'salvar' | 'reset' = 'button'
+  @Input() type: 'button' | 'submit' | 'reset' = 'button'
   @Input() disabled: boolean = false;
 
   @Output() onClick = new EventEmitter<void>();

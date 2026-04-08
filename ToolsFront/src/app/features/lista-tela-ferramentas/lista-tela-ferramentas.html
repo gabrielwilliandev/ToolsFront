@@ -26,7 +26,7 @@
         (keyup)="processarTags($event)"
       />
 
-      <button class="cadastrosalvar" (click)="adicionarFerramenta()">{{ modo === 'editar' ? 'Salvar Alterações' : 'Salvar' }}</button>
+      <button class="cadastrosalvar" (click)="adicionarFerramenta()">{{ modo === 'editar' ? 'Salvar Alterações' : 'Adicionar Ferramenta' }}</button>
     </div>
 
     @if (listaTags.length > 0) {
@@ -42,5 +42,6 @@
       </div>
     }
     <app-card [modo]="modo === 'editar' ? 'editar' : 'visualizar'"></app-card>
+    <app-button [label]="modo === 'editar' ? 'Salvar Alterações' : 'Salvar'" (onClick)="salvarLista()"></app-button>
   </div>
 </div>

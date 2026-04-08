@@ -19,7 +19,8 @@ namespace Tools.Infrastructure.Repositories
         {
             return await _context.Tools
                 .Include(t => t.Tags)
-                .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+                .Include(t => t.Lista)
+                .FirstOrDefaultAsync(t => t.Id == id && t.Lista.UserId == userId);
         }
 
         public async Task SaveChangesAsync()
@@ -36,7 +37,8 @@ namespace Tools.Infrastructure.Repositories
         {
             return await _context.Tools
                 .Include(t => t.Tags)
-                .Where(t => t.UserId == userId)
+                .Include(t => t.Lista)
+                .Where(t => t.Lista.UserId == userId)
                 .ToListAsync();
         }
 
@@ -47,19 +49,13 @@ namespace Tools.Infrastructure.Repositories
             return await _context.Tools
                 .Include(t => t.Tags)
                 .Where(t =>
-                t.UserId == userId &&(
+                t.Lista.UserId == userId &&(
                     EF.Functions.Like(t.Name, $"%{query}%") ||
                     EF.Functions.Like(t.Description, $"%{query}%") ||
                     t.Tags.Any(tag => EF.Functions.Like(tag.Name, $"%{query}%"))
                 )
                 )
                 .ToListAsync();
-        }
-        public async Task<Tool?> GetToolByIdWithTagsAsync(Guid id)
-        {
-            return await _context.Tools
-                .Include(t => t.Tags)
-                .FirstOrDefaultAsync(t => t.Id == id);
         }
     }
 }
